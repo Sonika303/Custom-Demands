@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account — Custom Demands</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="auth.css"/>
+</head>
+<body oncopy="return false" oncut="return false" oncontextmenu="return false">
+
+  <!-- NAV -->
+  <nav class="a-nav">
+    <a href="index.html" class="a-nav-logo">
+      <img src="favicon.png" alt="CD"/>
+      <span>Custom<strong>Demands</strong></span>
+    </a>
+    <a href="index.html" class="a-nav-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Site
+    </a>
+  </nav>
+
+  <!-- ═══ LOADING OVERLAY ═══ -->
+  <div class="a-loader" id="aLoader">
+    <div class="a-spinner"></div>
+  </div>
+
+  <!-- ═══ MAIN AUTH WRAPPER ═══ -->
+  <main class="a-main">
+
+    <!-- ── SCREEN: SIGN IN ── -->
+    <div class="a-screen" id="screenSignIn">
+      <div class="a-card">
+        <div class="a-brand">
+          <img src="favicon.png" alt="CD" class="a-brand-icon"/>
+          <div>
+            <div class="a-brand-name">Custom<span>Demands</span></div>
+            <div class="a-brand-sub">Your account</div>
+          </div>
+        </div>
+        <h1 class="a-heading">Welcome Back</h1>
+        <p class="a-body">Sign in to manage your orders, save preferences, and access your account settings.</p>
+
+        <button class="btn-google" id="btnGoogle">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="a-error" id="signInError"></div>
+
+        <p class="a-terms">By signing in, you agree to our terms of service. Your data is stored securely.</p>
+      </div>
+    </div>
+
+    <!-- ── SCREEN: SET USERNAME (new users) ── -->
+    <div class="a-screen" id="screenUsername" style="display:none">
+      <div class="a-card">
+        <div class="a-brand">
+          <img src="favicon.png" alt="CD" class="a-brand-icon"/>
+          <div>
+            <div class="a-brand-name">Custom<span>Demands</span></div>
+            <div class="a-brand-sub">One last step</div>
+          </div>
+        </div>
+        <h1 class="a-heading">Choose a Username</h1>
+        <p class="a-body">Pick a unique username for your Custom Demands account. You can change it anytime from Settings.</p>
+
+        <div class="a-avatar-preview" id="usernameAvatarWrap">
+          <img src="" alt="" id="usernameAvatar" class="a-avatar-big"/>
+          <div class="a-avatar-name" id="usernameDisplayName">Your Name</div>
+          <div class="a-avatar-email" id="usernameEmail">email@example.com</div>
+        </div>
+
+        <div class="a-field">
+          <label class="a-label" for="usernameInput">Username</label>
+          <div class="a-input-wrap">
+            <span class="a-input-prefix">@</span>
+            <input
+              type="text"
+              id="usernameInput"
+              class="a-input"
+              placeholder="yourcoolname"
+              maxlength="24"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          <p class="a-field-hint">3–24 characters. Letters, numbers, underscores only.</p>
+        </div>
+
+        <div class="a-error" id="usernameError"></div>
+
+        <button class="btn-primary-full" id="btnSaveUsername">
+          Save Username &amp; Continue
+        </button>
+      </div>
+    </div>
+
+    <!-- ── SCREEN: PROFILE / SETTINGS ── -->
+    <div class="a-screen" id="screenProfile" style="display:none">
+      <div class="a-card wide">
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+          <div class="profile-avatar-wrap">
+            <img src="" alt="" id="profileAvatar" class="profile-avatar"/>
+            <div class="profile-avatar-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+          </div>
+          <div class="profile-info">
+            <div class="profile-username" id="profileUsername">@username</div>
+            <div class="profile-email" id="profileEmail">email@example.com</div>
+            <div class="profile-since" id="profileSince">Member since —</div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="a-tabs">
+          <button class="a-tab active" data-tab="settings">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Settings
+          </button>
+          <button class="a-tab" data-tab="account">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Account
+          </button>
+        </div>
+
+        <!-- Tab: Settings -->
+        <div class="a-tab-content active" id="tabSettings">
+          <h2 class="settings-section-title">Profile Settings</h2>
+
+          <div class="settings-group">
+            <div class="a-field">
+              <label class="a-label" for="settingsUsername">Username</label>
+              <div class="a-input-wrap">
+                <span class="a-input-prefix">@</span>
+                <input type="text" id="settingsUsername" class="a-input" placeholder="username" maxlength="24" autocomplete="off" spellcheck="false"/>
+              </div>
+              <p class="a-field-hint">3–24 characters. Letters, numbers, underscores only.</p>
+            </div>
+          </div>
+
+          <div class="a-error" id="settingsError"></div>
+          <div class="a-success" id="settingsSuccess"></div>
+
+          <button class="btn-primary-full" id="btnSaveSettings">Save Changes</button>
+        </div>
+
+        <!-- Tab: Account -->
+        <div class="a-tab-content" id="tabAccount">
+          <h2 class="settings-section-title">Account Info</h2>
+          <div class="account-info-list">
+            <div class="account-info-row">
+              <span class="info-label">Display Name</span>
+              <span class="info-val" id="infoDisplayName">—</span>
+            </div>
+            <div class="account-info-row">
+              <span class="info-label">Email</span>
+              <span class="info-val" id="infoEmail">—</span>
+            </div>
+            <div class="account-info-row">
+              <span class="info-label">User ID</span>
+              <span class="info-val mono" id="infoUID">—</span>
+            </div>
+            <div class="account-info-row">
+              <span class="info-label">Provider</span>
+              <span class="info-val">Google</span>
+            </div>
+          </div>
+
+          <div class="account-danger-zone">
+            <h3 class="danger-title">Session</h3>
+            <button class="btn-signout" id="btnSignOut">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
