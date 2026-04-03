@@ -12,38 +12,40 @@
 </head>
 <body>
 
-  <!-- ── NAV ── -->
+  <!-- NAV -->
   <nav class="anav">
     <a href="index.html" class="anav-logo">
       <img src="favicon.png" alt="CD"/>
       <span>Custom<strong>Demands</strong></span>
     </a>
     <a href="index.html" class="anav-back">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       Back to site
     </a>
   </nav>
 
-  <!-- ── REDIRECT OVERLAY (only shows when auto-redirecting) ── -->
-  <div class="redirect-overlay" id="redirectOverlay">
-    <div class="redirect-spinner"></div>
-    <p>Signing you in…</p>
+  <!-- Redirect overlay (only shows during page transitions) -->
+  <div class="redir-overlay" id="redirOverlay">
+    <div class="redir-spin"></div>
+    <p>Redirecting…</p>
   </div>
 
   <main class="amain">
 
-    <!-- ════ SCREEN: SIGN IN (visible by default) ════ -->
+    <!-- ═══════════════════════════════
+         SCREEN 1 · SIGN IN  (default)
+         ═══════════════════════════════ -->
     <section class="ascreen" id="screenSignIn">
       <div class="acard">
-        <div class="acard-brand">
-          <img src="favicon.png" alt="CD" class="acard-favicon"/>
+        <div class="abrand">
+          <img src="favicon.png" alt="CD" class="abrand-ico"/>
           <div>
-            <div class="acard-brand-name">Custom<span>Demands</span></div>
-            <div class="acard-brand-sub">Your account</div>
+            <div class="abrand-name">Custom<span>Demands</span></div>
+            <div class="abrand-sub">Sign in to your account</div>
           </div>
         </div>
 
-        <h1 class="aheading">Welcome Back</h1>
+        <h1 class="ahead">Welcome Back</h1>
         <p class="asub">Sign in to manage your orders and account settings.</p>
 
         <button class="btn-google" id="btnGoogle">
@@ -51,31 +53,65 @@
           Continue with Google
         </button>
 
-        <div class="aerror" id="signInError"></div>
-
-        <p class="aterms">By signing in you agree to our terms. Data stored securely on Firebase.</p>
+        <p class="aerr" id="signInError"></p>
+        <p class="aterms">By signing in you agree to our terms. Data stored securely.</p>
       </div>
     </section>
 
-    <!-- ════ SCREEN: PICK USERNAME (hidden) ════ -->
-    <section class="ascreen" id="screenUsername" style="display:none">
+    <!-- ═══════════════════════════════
+         SCREEN 2 · ALREADY SIGNED IN
+         ═══════════════════════════════ -->
+    <section class="ascreen" id="screenAlready" style="display:none">
       <div class="acard">
-        <div class="acard-brand">
-          <img src="favicon.png" alt="CD" class="acard-favicon"/>
+        <div class="abrand">
+          <img src="favicon.png" alt="CD" class="abrand-ico"/>
           <div>
-            <div class="acard-brand-name">Custom<span>Demands</span></div>
-            <div class="acard-brand-sub">One last step</div>
+            <div class="abrand-name">Custom<span>Demands</span></div>
+            <div class="abrand-sub">You're logged in</div>
           </div>
         </div>
 
-        <h1 class="aheading">Pick a Username</h1>
+        <div class="already-avatar-wrap">
+          <img src="" alt="" id="alreadyAvatar" class="already-avatar"/>
+          <div class="already-check">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+
+        <h1 class="ahead" id="alreadyTitle">Hey, @user</h1>
+        <p class="asub" id="alreadyEmail">email@example.com</p>
+        <p class="already-note">You're already signed in to Custom Demands.</p>
+
+        <a href="index.html" class="btn-full">Go to Homepage</a>
+        <a href="auth.html?settings" class="btn-full outline" style="margin-top:10px">Open Settings</a>
+        <button class="btn-signout-alt" id="btnAlreadySignOut">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign out of this account
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SCREEN 3 · PICK USERNAME
+         ═══════════════════════════════ -->
+    <section class="ascreen" id="screenUsername" style="display:none">
+      <div class="acard">
+        <div class="abrand">
+          <img src="favicon.png" alt="CD" class="abrand-ico"/>
+          <div>
+            <div class="abrand-name">Custom<span>Demands</span></div>
+            <div class="abrand-sub">One last step</div>
+          </div>
+        </div>
+
+        <h1 class="ahead">Pick a Username</h1>
         <p class="asub">Choose a unique username for your Custom Demands profile.</p>
 
-        <div class="user-preview" id="userPreview">
-          <img src="" alt="" id="upAvatar" class="user-preview-img"/>
+        <div class="user-prev">
+          <img src="" alt="" id="upAvatar" class="user-prev-img"/>
           <div>
-            <div class="user-preview-name" id="upName">Name</div>
-            <div class="user-preview-email" id="upEmail">email</div>
+            <div class="user-prev-name"  id="upName">Name</div>
+            <div class="user-prev-email" id="upEmail">email</div>
           </div>
         </div>
 
@@ -85,41 +121,41 @@
             <span class="ainput-pre">@</span>
             <input id="unInput" type="text" class="ainput" placeholder="yourcoolname" maxlength="24" autocomplete="off" spellcheck="false"/>
           </div>
-          <p class="ahint">3–24 chars · Letters, numbers, underscores only</p>
+          <p class="ahint">3–24 chars · Letters, numbers, underscores</p>
         </div>
 
-        <div class="aerror" id="unError"></div>
+        <p class="aerr" id="unError"></p>
         <button class="btn-full" id="btnSaveUsername">Save &amp; Continue</button>
       </div>
     </section>
 
-    <!-- ════ SCREEN: SETTINGS (hidden) ════ -->
+    <!-- ═══════════════════════════════
+         SCREEN 4 · SETTINGS
+         ═══════════════════════════════ -->
     <section class="ascreen wide" id="screenSettings" style="display:none">
       <div class="acard wide">
 
-        <!-- Profile bar -->
         <div class="sprofile">
           <img src="" alt="" id="spAvatar" class="sprofile-img"/>
           <div>
-            <div class="sprofile-username" id="spUsername">@username</div>
-            <div class="sprofile-email"    id="spEmail">email</div>
-            <div class="sprofile-since"    id="spSince">Member since —</div>
+            <div class="sprofile-un"    id="spUsername">@username</div>
+            <div class="sprofile-email" id="spEmail">email</div>
+            <div class="sprofile-since" id="spSince">Member since —</div>
           </div>
         </div>
 
-        <!-- Tabs -->
         <div class="stabs">
           <button class="stab active" data-panel="panelProfile">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
             Profile
           </button>
           <button class="stab" data-panel="panelAccount">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
             Account
           </button>
         </div>
 
-        <!-- Panel: Profile -->
+        <!-- Profile panel -->
         <div class="spanel active" id="panelProfile">
           <h2 class="spanel-title">Edit Profile</h2>
           <div class="afield">
@@ -128,24 +164,24 @@
               <span class="ainput-pre">@</span>
               <input id="settingsUsername" type="text" class="ainput" placeholder="username" maxlength="24" autocomplete="off" spellcheck="false"/>
             </div>
-            <p class="ahint">3–24 chars · Letters, numbers, underscores only</p>
+            <p class="ahint">3–24 chars · Letters, numbers, underscores</p>
           </div>
-          <div class="aerror"   id="sError"></div>
-          <div class="asuccess" id="sSuccess"></div>
+          <p class="aerr"  id="sError"></p>
+          <p class="aok"   id="sSuccess"></p>
           <button class="btn-full" id="btnSaveSettings">Save Changes</button>
         </div>
 
-        <!-- Panel: Account -->
+        <!-- Account panel -->
         <div class="spanel" id="panelAccount">
           <h2 class="spanel-title">Account Info</h2>
           <div class="sinfo-list">
-            <div class="sinfo-row"><span class="sinfo-key">Name</span>     <span class="sinfo-val" id="infoName">—</span></div>
-            <div class="sinfo-row"><span class="sinfo-key">Email</span>    <span class="sinfo-val" id="infoEmail">—</span></div>
-            <div class="sinfo-row"><span class="sinfo-key">Provider</span> <span class="sinfo-val">Google</span></div>
-            <div class="sinfo-row"><span class="sinfo-key">User ID</span>  <span class="sinfo-val mono" id="infoUID">—</span></div>
+            <div class="sinfo-row"><span class="sinfo-k">Display Name</span><span class="sinfo-v" id="infoName">—</span></div>
+            <div class="sinfo-row"><span class="sinfo-k">Email</span>       <span class="sinfo-v" id="infoEmail">—</span></div>
+            <div class="sinfo-row"><span class="sinfo-k">Provider</span>    <span class="sinfo-v">Google</span></div>
+            <div class="sinfo-row"><span class="sinfo-k">User ID</span>     <span class="sinfo-v mono" id="infoUID">—</span></div>
           </div>
-          <div class="ssignout-wrap">
-            <p class="ssignout-label">End your current session</p>
+          <div class="ssignout-zone">
+            <p class="ssignout-lbl">End your current session</p>
             <button class="btn-signout" id="btnSignOut">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               Sign Out
@@ -160,7 +196,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
   <script src="auth.js"></script>
 </body>
 </html>
