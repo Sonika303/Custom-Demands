@@ -29,7 +29,10 @@
     </div>
 
     <div class="nav-right">
+      <!-- Logged out -->
       <a href="auth.html" class="nav-signin" id="navSignIn">Sign In</a>
+
+      <!-- Logged in -->
       <div class="nav-user" id="navUser" style="display:none">
         <button class="nav-user-btn" id="navUserBtn">
           <img src="" alt="" id="navAvatar" class="nav-avatar"/>
@@ -40,7 +43,7 @@
           <div class="nav-dd-head">
             <img src="" alt="" id="navDdAvatar" class="nav-dd-avatar"/>
             <div>
-              <div class="nav-dd-name"  id="navDdName">User</div>
+              <div class="nav-dd-name"  id="navDdName">@user</div>
               <div class="nav-dd-email" id="navDdEmail">email</div>
             </div>
           </div>
@@ -55,6 +58,7 @@
           </button>
         </div>
       </div>
+
       <button class="hamburger" id="ham" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -120,15 +124,10 @@
     <div class="cards-grid">
 
       <article class="card">
-        <!-- Replace src with your image path later e.g. src="images/skin1.jpg" -->
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">01</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
-          <!-- Uncomment below & remove placeholder div once you have an image:
-          <img src="images/skin1.jpg" alt="PenSkin 1" class="card-img"/>
-          -->
+          <div class="card-ph"><span class="card-num">01</span><p>Add Image</p></div>
+          <!-- To add image: remove the div above and uncomment below -->
+          <!-- <img src="images/skin1.jpg" alt="PenSkin 1" class="card-img"/> -->
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -143,10 +142,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">02</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">02</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -161,10 +157,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">03</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">03</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -179,10 +172,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">04</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">04</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -197,10 +187,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">05</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">05</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -215,10 +202,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">06</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">06</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -233,10 +217,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">07</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">07</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -251,10 +232,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">08</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">08</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -269,10 +247,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">09</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">09</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -287,10 +262,7 @@
 
       <article class="card">
         <div class="card-img-wrap">
-          <div class="card-img-placeholder">
-            <span class="card-num">10</span>
-            <p class="card-ph-label">Add Image</p>
-          </div>
+          <div class="card-ph"><span class="card-num">10</span><p>Add Image</p></div>
         </div>
         <div class="card-body">
           <p class="card-cat">PenSkin</p>
@@ -330,18 +302,9 @@
         </div>
       </div>
       <div class="about-stats">
-        <div class="stat-card">
-          <div class="stat-n">100%</div>
-          <div class="stat-l">Custom Made</div>
-        </div>
-        <div class="stat-card dark">
-          <div class="stat-n">0</div>
-          <div class="stat-l">Templates Used</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-n">∞</div>
-          <div class="stat-l">Possibilities</div>
-        </div>
+        <div class="stat-card"><div class="stat-n">100%</div><div class="stat-l">Custom Made</div></div>
+        <div class="stat-card dark"><div class="stat-n">0</div><div class="stat-l">Templates Used</div></div>
+        <div class="stat-card"><div class="stat-n">∞</div><div class="stat-l">Possibilities</div></div>
         <div class="stat-card brand">
           <img src="favicon.png" alt="CD"/>
           <span>Custom<strong>Demands</strong></span>
@@ -375,7 +338,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
   <script src="index.js"></script>
 </body>
 </html>
