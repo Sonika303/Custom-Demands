@@ -1,17 +1,16 @@
 /* ================================
-   CUSTOM DEMANDS — auth.js  (FIXED)
-   ================================ */
+   CUSTOM DEMANDS — auth.js
+   ================================
+   Flow:
+   - Sign-in screen is visible by default (no blocking loader).
+   - onAuthStateChanged fires after Firebase loads:
+       • no user     → stay on sign-in (already visible)
+       • user, no username → show username picker
+       • user + username + ?settings → show settings
+       • user + username (normal) → redirect to index.html
+*/
 
-/* ── COPY PREVENTION ── */
-['copy','cut','paste','selectstart','contextmenu'].forEach(evt =>
-  document.addEventListener(evt, e => e.preventDefault(), { passive: false })
-);
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && ['c','x','u','a','s'].includes(e.key.toLowerCase()))
-    e.preventDefault();
-});
-
-/* ── FIREBASE INIT ── */
+/* ── FIREBASE ── */
 const firebaseConfig = {
   apiKey:            "AIzaSyDuVgf-2jF10A8XQR7RZY7s9Ero8Y4KrII",
   authDomain:        "custom-demands.firebaseapp.com",
@@ -21,174 +20,127 @@ const firebaseConfig = {
   appId:             "1:885129813571:web:0891ca8dee84b80bdb3ef6",
   measurementId:     "G-PDWSS8WQEL"
 };
-
 firebase.initializeApp(firebaseConfig);
 const auth     = firebase.auth();
 const db       = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
-/* ── DOM ── */
-const loader         = document.getElementById('aLoader');
-const screenSignIn   = document.getElementById('screenSignIn');
-const screenUsername = document.getElementById('screenUsername');
-const screenSettings = document.getElementById('screenSettings');
-
-/* ── URL check: are we on the settings page? ── */
+/* ── URL param ── */
 const IS_SETTINGS = new URLSearchParams(window.location.search).has('settings');
 
-/* ── LOADER ── */
-function showLoader() { loader.style.display = 'flex'; }
-function hideLoader() { loader.style.display = 'none'; }
+/* ── DOM helpers ── */
+const $ = id => document.getElementById(id);
 
-/* ── SCREENS ── */
-function showScreen(id) {
-  [screenSignIn, screenUsername, screenSettings].forEach(s => {
-    if (s) s.style.display = 'none';
+function showOnly(id) {
+  ['screenSignIn','screenUsername','screenSettings'].forEach(s => {
+    const el = $(s);
+    if (el) el.style.display = (s === id) ? '' : 'none';
   });
-  const el = document.getElementById(id);
-  if (el) { el.style.display = ''; }
 }
 
-/* ── HELPERS ── */
 function avatarURL(user) {
   return user.photoURL ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'U')}&background=0a0a0a&color=fff&size=80&bold=true`;
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=0a0a0a&color=fff&size=80&bold=true`;
 }
 
-function validateUsername(u) {
-  if (!u || u.length < 3)         return 'Must be at least 3 characters.';
-  if (u.length > 24)              return 'Must be 24 characters or less.';
-  if (!/^[a-zA-Z0-9_]+$/.test(u)) return 'Letters, numbers, and underscores only.';
+function validateU(u) {
+  if (!u || u.length < 3)          return 'At least 3 characters required.';
+  if (u.length > 24)               return '24 characters maximum.';
+  if (!/^[a-zA-Z0-9_]+$/.test(u)) return 'Only letters, numbers, and underscores.';
   return null;
 }
 
-/* ── SAFETY NET: loader never hangs beyond 8s ── */
-const loaderTimeout = setTimeout(() => {
-  hideLoader();
-  showScreen('screenSignIn');
-}, 8000);
-
-/* ════════════════════════════════════
-   AUTH STATE — master controller
-   ════════════════════════════════════ */
+/* ── AUTH STATE ── */
+/* Sign-in screen is already visible — this only runs if user IS logged in */
 auth.onAuthStateChanged(async user => {
-  clearTimeout(loaderTimeout);
+  if (!user) return; /* Already showing sign-in screen, nothing to do */
 
-  if (!user) {
-    showScreen('screenSignIn');
-    hideLoader();
-    return;
-  }
-
-  /* User is signed in */
+  /* User is logged in */
   try {
-    const snap = await db.collection('users').doc(user.uid).get();
+    const snap  = await db.collection('users').doc(user.uid).get();
     const data  = snap.exists ? snap.data() : null;
-    const hasUsername = data && data.username;
+    const hasUN = data && data.username;
 
-    if (!hasUsername) {
-      /* New user — needs username */
-      fillUsernameScreen(user);
-      showScreen('screenUsername');
-      hideLoader();
-      return;
-    }
-
-    if (IS_SETTINGS) {
-      /* Returning user, opened settings */
-      fillSettingsScreen(user, data);
-      showScreen('screenSettings');
-      hideLoader();
+    if (!hasUN) {
+      /* New user — pick username */
+      $('upAvatar').src  = avatarURL(user);
+      $('upName').textContent  = user.displayName || 'New User';
+      $('upEmail').textContent = user.email || '';
+      showOnly('screenUsername');
+      setTimeout(() => $('unInput').focus(), 280);
+    } else if (IS_SETTINGS) {
+      /* Settings page */
+      fillSettings(user, data);
+      showOnly('screenSettings');
     } else {
-      /* Normal login — go home immediately */
+      /* Normal login — go home */
+      $('redirectOverlay').classList.add('show');
       window.location.replace('index.html');
     }
-
   } catch (err) {
-    console.error('Auth state error:', err);
-    /* Firestore failed — don't block the user */
+    console.error('Firestore error:', err);
+    /* Firestore failed but user is logged in */
     if (IS_SETTINGS) {
-      fillSettingsScreenFallback(user);
-      showScreen('screenSettings');
+      fillSettingsFallback(user);
+      showOnly('screenSettings');
     } else {
+      $('redirectOverlay').classList.add('show');
       window.location.replace('index.html');
     }
-    hideLoader();
   }
 });
 
-/* ════════════════════════════════════
-   SCREEN 1 — SIGN IN
-   ════════════════════════════════════ */
-const btnGoogle   = document.getElementById('btnGoogle');
-const signInError = document.getElementById('signInError');
-const GOOGLE_HTML = btnGoogle.innerHTML;
+/* ════════════════════════════════
+   SIGN IN SCREEN
+   ════════════════════════════════ */
+const GOOGLE_BTN_HTML = $('btnGoogle').innerHTML;
 
-btnGoogle.addEventListener('click', async () => {
-  signInError.textContent = '';
-  btnGoogle.disabled = true;
-  btnGoogle.innerHTML = '<span class="spin-icon"></span> Connecting…';
-  showLoader();
+$('btnGoogle').addEventListener('click', async () => {
+  $('signInError').textContent = '';
+  $('btnGoogle').disabled = true;
+  $('btnGoogle').innerHTML = '<span class="btn-google-spinner"></span>&nbsp; Connecting…';
 
   try {
     await auth.signInWithPopup(provider);
-    /* onAuthStateChanged handles the redirect */
+    /* onAuthStateChanged will handle the rest */
   } catch (err) {
-    hideLoader();
-    btnGoogle.disabled = false;
-    btnGoogle.innerHTML = GOOGLE_HTML;
+    $('btnGoogle').disabled = false;
+    $('btnGoogle').innerHTML = GOOGLE_BTN_HTML;
     const msgs = {
       'auth/popup-closed-by-user':    'Sign-in cancelled.',
-      'auth/popup-blocked':           'Popup blocked. Please allow popups for this site.',
+      'auth/popup-blocked':           'Popup blocked — please allow popups for this site.',
       'auth/network-request-failed':  'Network error. Check your connection.',
-      'auth/cancelled-popup-request': 'Only one sign-in at a time.',
+      'auth/cancelled-popup-request': 'Only one sign-in window at a time.',
     };
-    signInError.textContent = msgs[err.code] || `Sign-in failed: ${err.message}`;
+    $('signInError').textContent = msgs[err.code] || 'Sign-in failed. Try again.';
   }
 });
 
-/* ════════════════════════════════════
-   SCREEN 2 — PICK USERNAME
-   ════════════════════════════════════ */
-function fillUsernameScreen(user) {
-  document.getElementById('unAvatar').src              = avatarURL(user);
-  document.getElementById('unDisplayName').textContent = user.displayName || 'New User';
-  document.getElementById('unEmail').textContent       = user.email || '';
-  document.getElementById('unInput').value             = '';
-  document.getElementById('unError').textContent       = '';
-  setTimeout(() => document.getElementById('unInput').focus(), 300);
-}
-
-document.getElementById('btnSaveUsername').addEventListener('click', saveNewUsername);
-document.getElementById('unInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveNewUsername();
-});
+/* ════════════════════════════════
+   USERNAME SCREEN
+   ════════════════════════════════ */
+$('btnSaveUsername').addEventListener('click', saveNewUsername);
+$('unInput').addEventListener('keydown', e => { if (e.key === 'Enter') saveNewUsername(); });
 
 async function saveNewUsername() {
   const user = auth.currentUser;
   if (!user) return;
 
-  const input = document.getElementById('unInput');
-  const errEl = document.getElementById('unError');
-  const btn   = document.getElementById('btnSaveUsername');
-  const val   = input.value.trim().toLowerCase();
+  const val  = $('unInput').value.trim().toLowerCase();
+  const err  = validateU(val);
+  if (err) { $('unError').textContent = err; return; }
 
-  errEl.textContent = '';
-  const vErr = validateUsername(val);
-  if (vErr) { errEl.textContent = vErr; return; }
-
-  btn.disabled    = true;
-  btn.textContent = 'Saving…';
+  $('unError').textContent = '';
+  $('btnSaveUsername').disabled = true;
+  $('btnSaveUsername').textContent = 'Saving…';
 
   try {
-    const taken = await db.collection('users')
-      .where('username', '==', val).limit(1).get();
-
+    const taken = await db.collection('users').where('username','==',val).limit(1).get();
     if (!taken.empty) {
-      errEl.textContent = 'Username taken — try another one.';
-      btn.disabled    = false;
-      btn.textContent = 'Save & Continue';
+      $('unError').textContent = 'That username is taken — try another.';
+      $('btnSaveUsername').disabled = false;
+      $('btnSaveUsername').textContent = 'Save & Continue';
       return;
     }
 
@@ -201,89 +153,81 @@ async function saveNewUsername() {
       updatedAt:   firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    /* Done — go home */
+    $('redirectOverlay').classList.add('show');
     window.location.replace('index.html');
 
   } catch (err) {
     console.error('Save username:', err);
-    errEl.textContent = 'Could not save. Please try again.';
-    btn.disabled    = false;
-    btn.textContent = 'Save & Continue';
+    $('unError').textContent = 'Could not save. Please try again.';
+    $('btnSaveUsername').disabled = false;
+    $('btnSaveUsername').textContent = 'Save & Continue';
   }
 }
 
-/* ════════════════════════════════════
-   SCREEN 3 — SETTINGS
-   ════════════════════════════════════ */
-function fillSettingsScreen(user, data) {
+/* ════════════════════════════════
+   SETTINGS SCREEN
+   ════════════════════════════════ */
+function fillSettings(user, data) {
   const uname = data.username || user.displayName || 'user';
   const photo = avatarURL(user);
 
-  document.getElementById('sAvatar').src              = photo;
-  document.getElementById('sDisplayUsername').textContent = '@' + uname;
-  document.getElementById('sDisplayEmail').textContent = user.email || '';
+  $('spAvatar').src    = photo;
+  $('spUsername').textContent = '@' + uname;
+  $('spEmail').textContent    = user.email || '';
 
   const ts = data.createdAt && data.createdAt.toDate
     ? data.createdAt.toDate().toLocaleDateString('en-IN', { year:'numeric', month:'long', day:'numeric' })
     : '—';
-  document.getElementById('sSince').textContent = 'Member since ' + ts;
+  $('spSince').textContent = 'Member since ' + ts;
 
-  document.getElementById('settingsUsernameInput').value = uname;
-  document.getElementById('infoName').textContent  = user.displayName || '—';
-  document.getElementById('infoEmail').textContent = user.email        || '—';
-  document.getElementById('infoUID').textContent   = user.uid;
+  $('settingsUsername').value   = uname;
+  $('infoName').textContent     = user.displayName || '—';
+  $('infoEmail').textContent    = user.email       || '—';
+  $('infoUID').textContent      = user.uid;
 }
 
-function fillSettingsScreenFallback(user) {
-  fillSettingsScreen(user, { username: user.displayName || 'user' });
+function fillSettingsFallback(user) {
+  fillSettings(user, { username: user.displayName || 'user' });
 }
 
 /* Tabs */
-document.querySelectorAll('.s-tab').forEach(tab => {
+document.querySelectorAll('.stab').forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.s-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.spanel').forEach(p => p.classList.remove('active'));
     tab.classList.add('active');
-    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    $(tab.dataset.panel).classList.add('active');
   });
 });
 
-/* Save username */
-document.getElementById('btnSaveSettings').addEventListener('click', saveSettings);
-document.getElementById('settingsUsernameInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveSettings();
-});
+/* Save settings */
+$('btnSaveSettings').addEventListener('click', saveSettings);
+$('settingsUsername').addEventListener('keydown', e => { if (e.key === 'Enter') saveSettings(); });
 
 async function saveSettings() {
   const user = auth.currentUser;
   if (!user) return;
 
-  const input = document.getElementById('settingsUsernameInput');
-  const errEl = document.getElementById('sError');
-  const okEl  = document.getElementById('sSuccess');
-  const btn   = document.getElementById('btnSaveSettings');
-  const val   = input.value.trim().toLowerCase();
+  const val  = $('settingsUsername').value.trim().toLowerCase();
+  const vErr = validateU(val);
+  $('sError').textContent   = '';
+  $('sSuccess').textContent = '';
 
-  errEl.textContent = '';
-  okEl.textContent  = '';
+  if (vErr) { $('sError').textContent = vErr; return; }
 
-  const vErr = validateUsername(val);
-  if (vErr) { errEl.textContent = vErr; return; }
-
-  btn.disabled    = true;
-  btn.textContent = 'Saving…';
+  $('btnSaveSettings').disabled = true;
+  $('btnSaveSettings').textContent = 'Saving…';
 
   try {
-    const snap = await db.collection('users').doc(user.uid).get();
+    const snap    = await db.collection('users').doc(user.uid).get();
     const current = snap.exists ? snap.data().username : '';
 
     if (val !== current) {
-      const taken = await db.collection('users')
-        .where('username', '==', val).limit(1).get();
+      const taken = await db.collection('users').where('username','==',val).limit(1).get();
       if (!taken.empty) {
-        errEl.textContent = 'Username taken — try another.';
-        btn.disabled    = false;
-        btn.textContent = 'Save Changes';
+        $('sError').textContent = 'Username taken — try another.';
+        $('btnSaveSettings').disabled = false;
+        $('btnSaveSettings').textContent = 'Save Changes';
         return;
       }
     }
@@ -293,27 +237,26 @@ async function saveSettings() {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    document.getElementById('sDisplayUsername').textContent = '@' + val;
-    okEl.textContent = '✓ Saved!';
-    setTimeout(() => { okEl.textContent = ''; }, 3000);
+    $('spUsername').textContent = '@' + val;
+    $('sSuccess').textContent   = '✓ Saved successfully!';
+    setTimeout(() => { $('sSuccess').textContent = ''; }, 3000);
 
   } catch (err) {
     console.error('Settings save:', err);
-    errEl.textContent = 'Could not save. Please try again.';
+    $('sError').textContent = 'Could not save. Please try again.';
   } finally {
-    btn.disabled    = false;
-    btn.textContent = 'Save Changes';
+    $('btnSaveSettings').disabled = false;
+    $('btnSaveSettings').textContent = 'Save Changes';
   }
 }
 
 /* Sign out */
-document.getElementById('btnSignOut').addEventListener('click', async () => {
-  showLoader();
+$('btnSignOut').addEventListener('click', async () => {
+  $('redirectOverlay').classList.add('show');
   try {
     await auth.signOut();
     window.location.replace('auth.html');
   } catch (e) {
-    console.error('Sign out:', e);
-    hideLoader();
+    $('redirectOverlay').classList.remove('show');
   }
 });
