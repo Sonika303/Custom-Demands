@@ -152,7 +152,10 @@ async function saveNewUsername() {
       return;
     }
 
-    await db.collection('users').doc(user.uid).set({
+    await db.collection('users').doc(user.uid).update({
+      username: val,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
       username:    val,
       email:       user.email        || '',
       displayName: user.displayName  || '',
