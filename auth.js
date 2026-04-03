@@ -140,29 +140,22 @@ async function saveNewUsername() {
       return;
     }
 
+    // This part was broken - we use .update because the doc was created at login
     await db.collection('users').doc(user.uid).update({
       username: val,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-      username:    val,
-      email:       user.email        || '',
-      displayName: user.displayName  || '',
-      photoURL:    user.photoURL     || '',
-      createdAt:   firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt:   firebase.firestore.FieldValue.serverTimestamp()
     });
 
     $('redirectOverlay').classList.add('show');
     window.location.replace('index.html');
 
   } catch (err) {
-    console.error('Save username:', err);
+    console.error('Save username error:', err);
     $('unError').textContent = 'Could not save. Please try again.';
     $('btnSaveUsername').disabled = false;
     $('btnSaveUsername').textContent = 'Save & Continue';
   }
 }
-
 /* ════════════════════════════════
    SETTINGS SCREEN
    ════════════════════════════════ */
