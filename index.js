@@ -1,5 +1,6 @@
 /* ================================
    CUSTOM DEMANDS — index.js
+   Uses Firebase Realtime Database
    ================================ */
 
 /* ── COPY / RIGHT-CLICK PREVENTION ── */
@@ -19,11 +20,12 @@ const firebaseConfig = {
   storageBucket:     "custom-demands.firebasestorage.app",
   messagingSenderId: "885129813571",
   appId:             "1:885129813571:web:0891ca8dee84b80bdb3ef6",
-  measurementId:     "G-PDWSS8WQEL"
+  measurementId:     "G-PDWSS8WQEL",
+  databaseURL:       "https://custom-demands-default-rtdb.firebaseio.com"
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db   = firebase.firestore();
+const db   = firebase.database();
 
 /* ── DOM ── */
 const navSignIn   = document.getElementById('navSignIn');
@@ -61,8 +63,9 @@ auth.onAuthStateChanged(async user => {
   navDdEmail.textContent = user.email || '';
 
   try {
-    const snap  = await db.collection('users').doc(user.uid).get();
-    const uname = snap.exists && snap.data().username ? snap.data().username : (user.displayName || 'User');
+    const snap  = await db.ref('users/' + user.uid).once('value');
+    const data  = snap.exists() ? snap.val() : null;
+    const uname = data && data.username ? data.username : (user.displayName || 'User');
     navUsername.textContent = uname;
     navDdName.textContent   = '@' + uname;
   } catch {
