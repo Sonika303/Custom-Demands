@@ -12,7 +12,6 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav class="anav">
     <a href="index.html" class="anav-logo">
       <img src="favicon.png" alt="CD"/>
@@ -24,7 +23,6 @@
     </a>
   </nav>
 
-  <!-- Redirect overlay (only shows during page transitions) -->
   <div class="redir-overlay" id="redirOverlay">
     <div class="redir-spin"></div>
     <p>Redirecting…</p>
@@ -32,9 +30,7 @@
 
   <main class="amain">
 
-    <!-- ═══════════════════════════════
-         SCREEN 1 · SIGN IN  (default)
-         ═══════════════════════════════ -->
+    <!-- SCREEN 1: SIGN IN -->
     <section class="ascreen" id="screenSignIn">
       <div class="acard">
         <div class="abrand">
@@ -44,23 +40,18 @@
             <div class="abrand-sub">Sign in to your account</div>
           </div>
         </div>
-
         <h1 class="ahead">Welcome Back</h1>
         <p class="asub">Sign in to manage your orders and account settings.</p>
-
         <button class="btn-google" id="btnGoogle">
           <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
           Continue with Google
         </button>
-
         <p class="aerr" id="signInError"></p>
         <p class="aterms">By signing in you agree to our terms. Data stored securely.</p>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════
-         SCREEN 2 · ALREADY SIGNED IN
-         ═══════════════════════════════ -->
+    <!-- SCREEN 2: ALREADY SIGNED IN -->
     <section class="ascreen" id="screenAlready" style="display:none">
       <div class="acard">
         <div class="abrand">
@@ -70,18 +61,15 @@
             <div class="abrand-sub">You're logged in</div>
           </div>
         </div>
-
         <div class="already-avatar-wrap">
           <img src="" alt="" id="alreadyAvatar" class="already-avatar"/>
           <div class="already-check">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
         </div>
-
         <h1 class="ahead" id="alreadyTitle">Hey, @user</h1>
         <p class="asub" id="alreadyEmail">email@example.com</p>
         <p class="already-note">You're already signed in to Custom Demands.</p>
-
         <a href="index.html" class="btn-full">Go to Homepage</a>
         <a href="auth.html?settings" class="btn-full outline" style="margin-top:10px">Open Settings</a>
         <button class="btn-signout-alt" id="btnAlreadySignOut">
@@ -91,9 +79,7 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════
-         SCREEN 3 · PICK USERNAME
-         ═══════════════════════════════ -->
+    <!-- SCREEN 3: PICK USERNAME -->
     <section class="ascreen" id="screenUsername" style="display:none">
       <div class="acard">
         <div class="abrand">
@@ -103,10 +89,8 @@
             <div class="abrand-sub">One last step</div>
           </div>
         </div>
-
         <h1 class="ahead">Pick a Username</h1>
         <p class="asub">Choose a unique username for your Custom Demands profile.</p>
-
         <div class="user-prev">
           <img src="" alt="" id="upAvatar" class="user-prev-img"/>
           <div>
@@ -114,7 +98,6 @@
             <div class="user-prev-email" id="upEmail">email</div>
           </div>
         </div>
-
         <div class="afield">
           <label class="alabel" for="unInput">Username</label>
           <div class="ainput-wrap">
@@ -123,18 +106,14 @@
           </div>
           <p class="ahint">3–24 chars · Letters, numbers, underscores</p>
         </div>
-
         <p class="aerr" id="unError"></p>
         <button class="btn-full" id="btnSaveUsername">Save &amp; Continue</button>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════
-         SCREEN 4 · SETTINGS
-         ═══════════════════════════════ -->
+    <!-- SCREEN 4: SETTINGS -->
     <section class="ascreen wide" id="screenSettings" style="display:none">
       <div class="acard wide">
-
         <div class="sprofile">
           <img src="" alt="" id="spAvatar" class="sprofile-img"/>
           <div>
@@ -143,7 +122,6 @@
             <div class="sprofile-since" id="spSince">Member since —</div>
           </div>
         </div>
-
         <div class="stabs">
           <button class="stab active" data-panel="panelProfile">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
@@ -154,8 +132,6 @@
             Account
           </button>
         </div>
-
-        <!-- Profile panel -->
         <div class="spanel active" id="panelProfile">
           <h2 class="spanel-title">Edit Profile</h2>
           <div class="afield">
@@ -170,8 +146,6 @@
           <p class="aok"   id="sSuccess"></p>
           <button class="btn-full" id="btnSaveSettings">Save Changes</button>
         </div>
-
-        <!-- Account panel -->
         <div class="spanel" id="panelAccount">
           <h2 class="spanel-title">Account Info</h2>
           <div class="sinfo-list">
@@ -188,7 +162,6 @@
             </button>
           </div>
         </div>
-
       </div>
     </section>
 
