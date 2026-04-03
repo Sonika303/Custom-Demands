@@ -1,9 +1,7 @@
 /* ================================
    CUSTOM DEMANDS — index.js
-   Uses Firebase Realtime Database
    ================================ */
 
-/* ── COPY / RIGHT-CLICK PREVENTION ── */
 ['copy','cut','paste','selectstart','contextmenu'].forEach(evt =>
   document.addEventListener(evt, e => e.preventDefault(), { passive: false })
 );
@@ -12,7 +10,6 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
 });
 
-/* ── FIREBASE ── */
 const firebaseConfig = {
   apiKey:            "AIzaSyDuVgf-2jF10A8XQR7RZY7s9Ero8Y4KrII",
   authDomain:        "custom-demands.firebaseapp.com",
@@ -27,7 +24,6 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.database();
 
-/* ── DOM ── */
 const navSignIn   = document.getElementById('navSignIn');
 const navUser     = document.getElementById('navUser');
 const navAvatar   = document.getElementById('navAvatar');
@@ -45,7 +41,6 @@ function avatarURL(user) {
     `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=0a0a0a&color=fff&size=80&bold=true`;
 }
 
-/* ── AUTH STATE ── */
 auth.onAuthStateChanged(async user => {
   if (!user) {
     navSignIn.style.display = '';
@@ -76,7 +71,6 @@ auth.onAuthStateChanged(async user => {
   if (mobAuthLink) { mobAuthLink.textContent = 'Account Settings'; mobAuthLink.href = 'auth.html?settings'; }
 });
 
-/* ── DROPDOWN ── */
 navUserBtn.addEventListener('click', e => {
   e.stopPropagation();
   navDd.classList.toggle('open');
@@ -85,19 +79,16 @@ document.addEventListener('click', e => {
   if (!navUser.contains(e.target)) navDd.classList.remove('open');
 });
 
-/* ── SIGN OUT ── */
 navSignOut.addEventListener('click', async () => {
   navDd.classList.remove('open');
   await auth.signOut();
 });
 
-/* ── NAV SCROLL ── */
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 8);
 }, { passive: true });
 
-/* ── HAMBURGER ── */
 const ham     = document.getElementById('ham');
 const mobMenu = document.getElementById('mobMenu');
 
@@ -116,7 +107,6 @@ function closeMob() {
 }
 window.closeMob = closeMob;
 
-/* ── SMOOTH ANCHOR SCROLL ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const t = document.querySelector(a.getAttribute('href'));
