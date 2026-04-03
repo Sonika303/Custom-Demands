@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="auth.css"/>
 </head>
 <body oncopy="return false" oncut="return false" oncontextmenu="return false">
@@ -19,34 +19,39 @@
       <span>Custom<strong>Demands</strong></span>
     </a>
     <a href="index.html" class="a-nav-back">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
-      Back to Site
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to site
     </a>
   </nav>
 
-  <!-- ═══ LOADING OVERLAY ═══ -->
+  <!-- LOADING OVERLAY -->
   <div class="a-loader" id="aLoader">
     <div class="a-spinner"></div>
+    <p class="a-loader-text">Just a moment…</p>
   </div>
 
-  <!-- ═══ MAIN AUTH WRAPPER ═══ -->
+  <!-- PAGE BODY -->
   <main class="a-main">
 
-    <!-- ── SCREEN: SIGN IN ── -->
+    <!-- ══════════════════════════
+         SCREEN 1 · SIGN IN
+         ══════════════════════════ -->
     <div class="a-screen" id="screenSignIn">
       <div class="a-card">
-        <div class="a-brand">
+
+        <div class="a-brand-row">
           <img src="favicon.png" alt="CD" class="a-brand-icon"/>
           <div>
             <div class="a-brand-name">Custom<span>Demands</span></div>
-            <div class="a-brand-sub">Your account</div>
+            <div class="a-brand-sub">Sign in to your account</div>
           </div>
         </div>
+
         <h1 class="a-heading">Welcome Back</h1>
-        <p class="a-body">Sign in to manage your orders, save preferences, and access your account settings.</p>
+        <p class="a-subtext">Access your orders, saved designs, and account settings in one place.</p>
 
         <button class="btn-google" id="btnGoogle">
-          <svg width="20" height="20" viewBox="0 0 24 24">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
@@ -55,38 +60,46 @@
           Continue with Google
         </button>
 
-        <div class="a-error" id="signInError"></div>
+        <p class="a-error-msg" id="signInError"></p>
+        <p class="a-terms">By signing in, you agree to our terms. Your data is stored securely on Firebase.</p>
 
-        <p class="a-terms">By signing in, you agree to our terms of service. Your data is stored securely.</p>
       </div>
     </div>
 
-    <!-- ── SCREEN: SET USERNAME (new users) ── -->
+    <!-- ══════════════════════════
+         SCREEN 2 · PICK USERNAME
+         ══════════════════════════ -->
     <div class="a-screen" id="screenUsername" style="display:none">
       <div class="a-card">
-        <div class="a-brand">
+
+        <div class="a-brand-row">
           <img src="favicon.png" alt="CD" class="a-brand-icon"/>
           <div>
             <div class="a-brand-name">Custom<span>Demands</span></div>
             <div class="a-brand-sub">One last step</div>
           </div>
         </div>
-        <h1 class="a-heading">Choose a Username</h1>
-        <p class="a-body">Pick a unique username for your Custom Demands account. You can change it anytime from Settings.</p>
 
-        <div class="a-avatar-preview" id="usernameAvatarWrap">
-          <img src="" alt="" id="usernameAvatar" class="a-avatar-big"/>
-          <div class="a-avatar-name" id="usernameDisplayName">Your Name</div>
-          <div class="a-avatar-email" id="usernameEmail">email@example.com</div>
+        <h1 class="a-heading">Pick a Username</h1>
+        <p class="a-subtext">Choose a unique username for your Custom Demands account.</p>
+
+        <!-- User preview -->
+        <div class="a-user-preview">
+          <img src="" alt="" id="unAvatar" class="a-user-avatar"/>
+          <div class="a-user-info">
+            <div class="a-user-name" id="unDisplayName">Name</div>
+            <div class="a-user-email" id="unEmail">email@example.com</div>
+          </div>
         </div>
 
+        <!-- Input -->
         <div class="a-field">
-          <label class="a-label" for="usernameInput">Username</label>
-          <div class="a-input-wrap">
-            <span class="a-input-prefix">@</span>
+          <label class="a-label" for="unInput">Username</label>
+          <div class="a-input-row">
+            <span class="a-prefix">@</span>
             <input
               type="text"
-              id="usernameInput"
+              id="unInput"
               class="a-input"
               placeholder="yourcoolname"
               maxlength="24"
@@ -94,95 +107,100 @@
               spellcheck="false"
             />
           </div>
-          <p class="a-field-hint">3–24 characters. Letters, numbers, underscores only.</p>
+          <p class="a-hint">3–24 characters · Letters, numbers, underscores</p>
         </div>
 
-        <div class="a-error" id="usernameError"></div>
+        <p class="a-error-msg" id="unError"></p>
 
-        <button class="btn-primary-full" id="btnSaveUsername">
-          Save Username &amp; Continue
-        </button>
+        <button class="btn-full-black" id="btnSaveUsername">Save &amp; Continue</button>
+
       </div>
     </div>
 
-    <!-- ── SCREEN: PROFILE / SETTINGS ── -->
-    <div class="a-screen" id="screenProfile" style="display:none">
+    <!-- ══════════════════════════
+         SCREEN 3 · SETTINGS
+         ══════════════════════════ -->
+    <div class="a-screen wide" id="screenSettings" style="display:none">
       <div class="a-card wide">
 
-        <!-- Profile Header -->
-        <div class="profile-header">
-          <div class="profile-avatar-wrap">
-            <img src="" alt="" id="profileAvatar" class="profile-avatar"/>
-            <div class="profile-avatar-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
+        <!-- Profile header -->
+        <div class="s-profile-header">
+          <div class="s-avatar-wrap">
+            <img src="" alt="" id="sAvatar" class="s-avatar"/>
           </div>
-          <div class="profile-info">
-            <div class="profile-username" id="profileUsername">@username</div>
-            <div class="profile-email" id="profileEmail">email@example.com</div>
-            <div class="profile-since" id="profileSince">Member since —</div>
+          <div class="s-profile-info">
+            <div class="s-username" id="sDisplayUsername">@username</div>
+            <div class="s-email"    id="sDisplayEmail">email@example.com</div>
+            <div class="s-since"    id="sSince">Member since —</div>
           </div>
         </div>
 
         <!-- Tabs -->
-        <div class="a-tabs">
-          <button class="a-tab active" data-tab="settings">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-            Settings
+        <div class="s-tabs">
+          <button class="s-tab active" data-tab="profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Profile
           </button>
-          <button class="a-tab" data-tab="account">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <button class="s-tab" data-tab="account">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
             Account
           </button>
         </div>
 
-        <!-- Tab: Settings -->
-        <div class="a-tab-content active" id="tabSettings">
-          <h2 class="settings-section-title">Profile Settings</h2>
+        <!-- Panel: Profile -->
+        <div class="s-panel active" id="panel-profile">
+          <h2 class="s-section-title">Edit Profile</h2>
 
-          <div class="settings-group">
-            <div class="a-field">
-              <label class="a-label" for="settingsUsername">Username</label>
-              <div class="a-input-wrap">
-                <span class="a-input-prefix">@</span>
-                <input type="text" id="settingsUsername" class="a-input" placeholder="username" maxlength="24" autocomplete="off" spellcheck="false"/>
-              </div>
-              <p class="a-field-hint">3–24 characters. Letters, numbers, underscores only.</p>
+          <div class="a-field">
+            <label class="a-label" for="settingsUsernameInput">Username</label>
+            <div class="a-input-row">
+              <span class="a-prefix">@</span>
+              <input
+                type="text"
+                id="settingsUsernameInput"
+                class="a-input"
+                placeholder="username"
+                maxlength="24"
+                autocomplete="off"
+                spellcheck="false"
+              />
             </div>
+            <p class="a-hint">3–24 characters · Letters, numbers, underscores</p>
           </div>
 
-          <div class="a-error" id="settingsError"></div>
-          <div class="a-success" id="settingsSuccess"></div>
+          <p class="a-error-msg"   id="sError"></p>
+          <p class="a-success-msg" id="sSuccess"></p>
 
-          <button class="btn-primary-full" id="btnSaveSettings">Save Changes</button>
+          <button class="btn-full-black" id="btnSaveSettings">Save Changes</button>
         </div>
 
-        <!-- Tab: Account -->
-        <div class="a-tab-content" id="tabAccount">
-          <h2 class="settings-section-title">Account Info</h2>
-          <div class="account-info-list">
-            <div class="account-info-row">
-              <span class="info-label">Display Name</span>
-              <span class="info-val" id="infoDisplayName">—</span>
+        <!-- Panel: Account -->
+        <div class="s-panel" id="panel-account">
+          <h2 class="s-section-title">Account Info</h2>
+
+          <div class="s-info-list">
+            <div class="s-info-row">
+              <span class="s-info-label">Display Name</span>
+              <span class="s-info-val" id="infoName">—</span>
             </div>
-            <div class="account-info-row">
-              <span class="info-label">Email</span>
-              <span class="info-val" id="infoEmail">—</span>
+            <div class="s-info-row">
+              <span class="s-info-label">Email</span>
+              <span class="s-info-val" id="infoEmail">—</span>
             </div>
-            <div class="account-info-row">
-              <span class="info-label">User ID</span>
-              <span class="info-val mono" id="infoUID">—</span>
+            <div class="s-info-row">
+              <span class="s-info-label">User ID</span>
+              <span class="s-info-val s-mono" id="infoUID">—</span>
             </div>
-            <div class="account-info-row">
-              <span class="info-label">Provider</span>
-              <span class="info-val">Google</span>
+            <div class="s-info-row">
+              <span class="s-info-label">Sign-in Provider</span>
+              <span class="s-info-val">Google</span>
             </div>
           </div>
 
-          <div class="account-danger-zone">
-            <h3 class="danger-title">Session</h3>
+          <div class="s-signout-zone">
+            <p class="s-signout-label">End your current session</p>
             <button class="btn-signout" id="btnSignOut">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               Sign Out
             </button>
           </div>
@@ -193,7 +211,7 @@
 
   </main>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase SDKs (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
