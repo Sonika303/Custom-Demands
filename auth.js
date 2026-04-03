@@ -1,15 +1,3 @@
-/* ================================
-   CUSTOM DEMANDS — auth.js
-   ================================
-   Flow:
-   - Sign-in screen is visible by default (no blocking loader).
-   - onAuthStateChanged fires after Firebase loads:
-       • no user     → stay on sign-in (already visible)
-       • user, no username → show username picker
-       • user + username + ?settings → show settings
-       • user + username (normal) → redirect to index.html
-*/
-
 /* ── FIREBASE ── */
 const firebaseConfig = {
   apiKey:            "AIzaSyDuVgf-2jF10A8XQR7RZY7s9Ero8Y4KrII",
