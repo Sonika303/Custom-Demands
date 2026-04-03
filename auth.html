@@ -1,319 +1,166 @@
-/* ================================
-   CUSTOM DEMANDS — auth.js  (FIXED)
-   ================================ */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account — Custom Demands</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="auth.css"/>
+</head>
+<body>
 
-/* ── COPY PREVENTION ── */
-['copy','cut','paste','selectstart','contextmenu'].forEach(evt =>
-  document.addEventListener(evt, e => e.preventDefault(), { passive: false })
-);
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && ['c','x','u','a','s'].includes(e.key.toLowerCase()))
-    e.preventDefault();
-});
+  <!-- ── NAV ── -->
+  <nav class="anav">
+    <a href="index.html" class="anav-logo">
+      <img src="favicon.png" alt="CD"/>
+      <span>Custom<strong>Demands</strong></span>
+    </a>
+    <a href="index.html" class="anav-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to site
+    </a>
+  </nav>
 
-/* ── FIREBASE INIT ── */
-const firebaseConfig = {
-  apiKey:            "AIzaSyDuVgf-2jF10A8XQR7RZY7s9Ero8Y4KrII",
-  authDomain:        "custom-demands.firebaseapp.com",
-  projectId:         "custom-demands",
-  storageBucket:     "custom-demands.firebasestorage.app",
-  messagingSenderId: "885129813571",
-  appId:             "1:885129813571:web:0891ca8dee84b80bdb3ef6",
-  measurementId:     "G-PDWSS8WQEL"
-};
+  <!-- ── REDIRECT OVERLAY (only shows when auto-redirecting) ── -->
+  <div class="redirect-overlay" id="redirectOverlay">
+    <div class="redirect-spinner"></div>
+    <p>Signing you in…</p>
+  </div>
 
-firebase.initializeApp(firebaseConfig);
-const auth     = firebase.auth();
-const db       = firebase.firestore();
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
+  <main class="amain">
 
-/* ── DOM ── */
-const loader         = document.getElementById('aLoader');
-const screenSignIn   = document.getElementById('screenSignIn');
-const screenUsername = document.getElementById('screenUsername');
-const screenSettings = document.getElementById('screenSettings');
+    <!-- ════ SCREEN: SIGN IN (visible by default) ════ -->
+    <section class="ascreen" id="screenSignIn">
+      <div class="acard">
+        <div class="acard-brand">
+          <img src="favicon.png" alt="CD" class="acard-favicon"/>
+          <div>
+            <div class="acard-brand-name">Custom<span>Demands</span></div>
+            <div class="acard-brand-sub">Your account</div>
+          </div>
+        </div>
 
-/* ── URL check: are we on the settings page? ── */
-const IS_SETTINGS = new URLSearchParams(window.location.search).has('settings');
+        <h1 class="aheading">Welcome Back</h1>
+        <p class="asub">Sign in to manage your orders and account settings.</p>
 
-/* ── LOADER ── */
-function showLoader() { loader.style.display = 'flex'; }
-function hideLoader() { loader.style.display = 'none'; }
+        <button class="btn-google" id="btnGoogle">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
 
-/* ── SCREENS ── */
-function showScreen(id) {
-  [screenSignIn, screenUsername, screenSettings].forEach(s => {
-    if (s) s.style.display = 'none';
-  });
-  const el = document.getElementById(id);
-  if (el) { el.style.display = ''; }
-}
+        <div class="aerror" id="signInError"></div>
 
-/* ── HELPERS ── */
-function avatarURL(user) {
-  return user.photoURL ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'U')}&background=0a0a0a&color=fff&size=80&bold=true`;
-}
+        <p class="aterms">By signing in you agree to our terms. Data stored securely on Firebase.</p>
+      </div>
+    </section>
 
-function validateUsername(u) {
-  if (!u || u.length < 3)         return 'Must be at least 3 characters.';
-  if (u.length > 24)              return 'Must be 24 characters or less.';
-  if (!/^[a-zA-Z0-9_]+$/.test(u)) return 'Letters, numbers, and underscores only.';
-  return null;
-}
+    <!-- ════ SCREEN: PICK USERNAME (hidden) ════ -->
+    <section class="ascreen" id="screenUsername" style="display:none">
+      <div class="acard">
+        <div class="acard-brand">
+          <img src="favicon.png" alt="CD" class="acard-favicon"/>
+          <div>
+            <div class="acard-brand-name">Custom<span>Demands</span></div>
+            <div class="acard-brand-sub">One last step</div>
+          </div>
+        </div>
 
-/* ── SAFETY NET: loader never hangs beyond 8s ── */
-const loaderTimeout = setTimeout(() => {
-  hideLoader();
-  showScreen('screenSignIn');
-}, 8000);
+        <h1 class="aheading">Pick a Username</h1>
+        <p class="asub">Choose a unique username for your Custom Demands profile.</p>
 
-/* ════════════════════════════════════
-   AUTH STATE — master controller
-   ════════════════════════════════════ */
-auth.onAuthStateChanged(async user => {
-  clearTimeout(loaderTimeout);
+        <div class="user-preview" id="userPreview">
+          <img src="" alt="" id="upAvatar" class="user-preview-img"/>
+          <div>
+            <div class="user-preview-name" id="upName">Name</div>
+            <div class="user-preview-email" id="upEmail">email</div>
+          </div>
+        </div>
 
-  if (!user) {
-    showScreen('screenSignIn');
-    hideLoader();
-    return;
-  }
+        <div class="afield">
+          <label class="alabel" for="unInput">Username</label>
+          <div class="ainput-wrap">
+            <span class="ainput-pre">@</span>
+            <input id="unInput" type="text" class="ainput" placeholder="yourcoolname" maxlength="24" autocomplete="off" spellcheck="false"/>
+          </div>
+          <p class="ahint">3–24 chars · Letters, numbers, underscores only</p>
+        </div>
 
-  /* User is signed in */
-  try {
-    const snap = await db.collection('users').doc(user.uid).get();
-    const data  = snap.exists ? snap.data() : null;
-    const hasUsername = data && data.username;
+        <div class="aerror" id="unError"></div>
+        <button class="btn-full" id="btnSaveUsername">Save &amp; Continue</button>
+      </div>
+    </section>
 
-    if (!hasUsername) {
-      /* New user — needs username */
-      fillUsernameScreen(user);
-      showScreen('screenUsername');
-      hideLoader();
-      return;
-    }
+    <!-- ════ SCREEN: SETTINGS (hidden) ════ -->
+    <section class="ascreen wide" id="screenSettings" style="display:none">
+      <div class="acard wide">
 
-    if (IS_SETTINGS) {
-      /* Returning user, opened settings */
-      fillSettingsScreen(user, data);
-      showScreen('screenSettings');
-      hideLoader();
-    } else {
-      /* Normal login — go home immediately */
-      window.location.replace('index.html');
-    }
+        <!-- Profile bar -->
+        <div class="sprofile">
+          <img src="" alt="" id="spAvatar" class="sprofile-img"/>
+          <div>
+            <div class="sprofile-username" id="spUsername">@username</div>
+            <div class="sprofile-email"    id="spEmail">email</div>
+            <div class="sprofile-since"    id="spSince">Member since —</div>
+          </div>
+        </div>
 
-  } catch (err) {
-    console.error('Auth state error:', err);
-    /* Firestore failed — don't block the user */
-    if (IS_SETTINGS) {
-      fillSettingsScreenFallback(user);
-      showScreen('screenSettings');
-    } else {
-      window.location.replace('index.html');
-    }
-    hideLoader();
-  }
-});
+        <!-- Tabs -->
+        <div class="stabs">
+          <button class="stab active" data-panel="panelProfile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Profile
+          </button>
+          <button class="stab" data-panel="panelAccount">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Account
+          </button>
+        </div>
 
-/* ════════════════════════════════════
-   SCREEN 1 — SIGN IN
-   ════════════════════════════════════ */
-const btnGoogle   = document.getElementById('btnGoogle');
-const signInError = document.getElementById('signInError');
-const GOOGLE_HTML = btnGoogle.innerHTML;
+        <!-- Panel: Profile -->
+        <div class="spanel active" id="panelProfile">
+          <h2 class="spanel-title">Edit Profile</h2>
+          <div class="afield">
+            <label class="alabel" for="settingsUsername">Username</label>
+            <div class="ainput-wrap">
+              <span class="ainput-pre">@</span>
+              <input id="settingsUsername" type="text" class="ainput" placeholder="username" maxlength="24" autocomplete="off" spellcheck="false"/>
+            </div>
+            <p class="ahint">3–24 chars · Letters, numbers, underscores only</p>
+          </div>
+          <div class="aerror"   id="sError"></div>
+          <div class="asuccess" id="sSuccess"></div>
+          <button class="btn-full" id="btnSaveSettings">Save Changes</button>
+        </div>
 
-btnGoogle.addEventListener('click', async () => {
-  signInError.textContent = '';
-  btnGoogle.disabled = true;
-  btnGoogle.innerHTML = '<span class="spin-icon"></span> Connecting…';
-  showLoader();
+        <!-- Panel: Account -->
+        <div class="spanel" id="panelAccount">
+          <h2 class="spanel-title">Account Info</h2>
+          <div class="sinfo-list">
+            <div class="sinfo-row"><span class="sinfo-key">Name</span>     <span class="sinfo-val" id="infoName">—</span></div>
+            <div class="sinfo-row"><span class="sinfo-key">Email</span>    <span class="sinfo-val" id="infoEmail">—</span></div>
+            <div class="sinfo-row"><span class="sinfo-key">Provider</span> <span class="sinfo-val">Google</span></div>
+            <div class="sinfo-row"><span class="sinfo-key">User ID</span>  <span class="sinfo-val mono" id="infoUID">—</span></div>
+          </div>
+          <div class="ssignout-wrap">
+            <p class="ssignout-label">End your current session</p>
+            <button class="btn-signout" id="btnSignOut">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
 
-  try {
-    await auth.signInWithPopup(provider);
-    /* onAuthStateChanged handles the redirect */
-  } catch (err) {
-    hideLoader();
-    btnGoogle.disabled = false;
-    btnGoogle.innerHTML = GOOGLE_HTML;
-    const msgs = {
-      'auth/popup-closed-by-user':    'Sign-in cancelled.',
-      'auth/popup-blocked':           'Popup blocked. Please allow popups for this site.',
-      'auth/network-request-failed':  'Network error. Check your connection.',
-      'auth/cancelled-popup-request': 'Only one sign-in at a time.',
-    };
-    signInError.textContent = msgs[err.code] || `Sign-in failed: ${err.message}`;
-  }
-});
+      </div>
+    </section>
 
-/* ════════════════════════════════════
-   SCREEN 2 — PICK USERNAME
-   ════════════════════════════════════ */
-function fillUsernameScreen(user) {
-  document.getElementById('unAvatar').src              = avatarURL(user);
-  document.getElementById('unDisplayName').textContent = user.displayName || 'New User';
-  document.getElementById('unEmail').textContent       = user.email || '';
-  document.getElementById('unInput').value             = '';
-  document.getElementById('unError').textContent       = '';
-  setTimeout(() => document.getElementById('unInput').focus(), 300);
-}
+  </main>
 
-document.getElementById('btnSaveUsername').addEventListener('click', saveNewUsername);
-document.getElementById('unInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveNewUsername();
-});
-
-async function saveNewUsername() {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  const input = document.getElementById('unInput');
-  const errEl = document.getElementById('unError');
-  const btn   = document.getElementById('btnSaveUsername');
-  const val   = input.value.trim().toLowerCase();
-
-  errEl.textContent = '';
-  const vErr = validateUsername(val);
-  if (vErr) { errEl.textContent = vErr; return; }
-
-  btn.disabled    = true;
-  btn.textContent = 'Saving…';
-
-  try {
-    const taken = await db.collection('users')
-      .where('username', '==', val).limit(1).get();
-
-    if (!taken.empty) {
-      errEl.textContent = 'Username taken — try another one.';
-      btn.disabled    = false;
-      btn.textContent = 'Save & Continue';
-      return;
-    }
-
-    await db.collection('users').doc(user.uid).set({
-      username:    val,
-      email:       user.email        || '',
-      displayName: user.displayName  || '',
-      photoURL:    user.photoURL     || '',
-      createdAt:   firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt:   firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    /* Done — go home */
-    window.location.replace('index.html');
-
-  } catch (err) {
-    console.error('Save username:', err);
-    errEl.textContent = 'Could not save. Please try again.';
-    btn.disabled    = false;
-    btn.textContent = 'Save & Continue';
-  }
-}
-
-/* ════════════════════════════════════
-   SCREEN 3 — SETTINGS
-   ════════════════════════════════════ */
-function fillSettingsScreen(user, data) {
-  const uname = data.username || user.displayName || 'user';
-  const photo = avatarURL(user);
-
-  document.getElementById('sAvatar').src              = photo;
-  document.getElementById('sDisplayUsername').textContent = '@' + uname;
-  document.getElementById('sDisplayEmail').textContent = user.email || '';
-
-  const ts = data.createdAt && data.createdAt.toDate
-    ? data.createdAt.toDate().toLocaleDateString('en-IN', { year:'numeric', month:'long', day:'numeric' })
-    : '—';
-  document.getElementById('sSince').textContent = 'Member since ' + ts;
-
-  document.getElementById('settingsUsernameInput').value = uname;
-  document.getElementById('infoName').textContent  = user.displayName || '—';
-  document.getElementById('infoEmail').textContent = user.email        || '—';
-  document.getElementById('infoUID').textContent   = user.uid;
-}
-
-function fillSettingsScreenFallback(user) {
-  fillSettingsScreen(user, { username: user.displayName || 'user' });
-}
-
-/* Tabs */
-document.querySelectorAll('.s-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.s-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
-  });
-});
-
-/* Save username */
-document.getElementById('btnSaveSettings').addEventListener('click', saveSettings);
-document.getElementById('settingsUsernameInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveSettings();
-});
-
-async function saveSettings() {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  const input = document.getElementById('settingsUsernameInput');
-  const errEl = document.getElementById('sError');
-  const okEl  = document.getElementById('sSuccess');
-  const btn   = document.getElementById('btnSaveSettings');
-  const val   = input.value.trim().toLowerCase();
-
-  errEl.textContent = '';
-  okEl.textContent  = '';
-
-  const vErr = validateUsername(val);
-  if (vErr) { errEl.textContent = vErr; return; }
-
-  btn.disabled    = true;
-  btn.textContent = 'Saving…';
-
-  try {
-    const snap = await db.collection('users').doc(user.uid).get();
-    const current = snap.exists ? snap.data().username : '';
-
-    if (val !== current) {
-      const taken = await db.collection('users')
-        .where('username', '==', val).limit(1).get();
-      if (!taken.empty) {
-        errEl.textContent = 'Username taken — try another.';
-        btn.disabled    = false;
-        btn.textContent = 'Save Changes';
-        return;
-      }
-    }
-
-    await db.collection('users').doc(user.uid).update({
-      username:  val,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    document.getElementById('sDisplayUsername').textContent = '@' + val;
-    okEl.textContent = '✓ Saved!';
-    setTimeout(() => { okEl.textContent = ''; }, 3000);
-
-  } catch (err) {
-    console.error('Settings save:', err);
-    errEl.textContent = 'Could not save. Please try again.';
-  } finally {
-    btn.disabled    = false;
-    btn.textContent = 'Save Changes';
-  }
-}
-
-/* Sign out */
-document.getElementById('btnSignOut').addEventListener('click', async () => {
-  showLoader();
-  try {
-    await auth.signOut();
-    window.location.replace('auth.html');
-  } catch (e) {
-    console.error('Sign out:', e);
-    hideLoader();
-  }
-});
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
