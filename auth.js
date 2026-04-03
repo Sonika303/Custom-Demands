@@ -52,45 +52,53 @@ function validateU(u) {
 }
 
 /* ── AUTH STATE ── */
-/* Sign-in screen is already visible — this only runs if user IS logged in */
 auth.onAuthStateChanged(async user => {
-  if (!user) return; /* Already showing sign-in screen, nothing to do */
+  if (!user) return; 
 
-  /* User is logged in */
   try {
-    const snap  = await db.collection('users').doc(user.uid).get();
-    const data  = snap.exists ? snap.data() : null;
+    const userRef = db.collection('users').doc(user.uid);
+    const snap = await userRef.get();
+    
+    // NEW: If user doesn't exist at all in Firestore, create the basic doc immediately
+    if (!snap.exists) {
+      await userRef.set({
+        uid: user.uid,
+        email: user.email || '',
+        displayName: user.displayName || '',
+        photoURL: user.photoURL || '',
+        username: null, // This triggers the username picker below
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      console.log("Initial user doc created in Firestore!");
+    }
+
+    const data = snap.exists ? snap.data() : null;
     const hasUN = data && data.username;
 
     if (!hasUN) {
-      /* New user — pick username */
-      $('upAvatar').src  = avatarURL(user);
-      $('upName').textContent  = user.displayName || 'New User';
+      /* New user or user without username — pick username */
+      $('upAvatar').src = avatarURL(user);
+      $('upName').textContent = user.displayName || 'New User';
       $('upEmail').textContent = user.email || '';
       showOnly('screenUsername');
       setTimeout(() => $('unInput').focus(), 280);
     } else if (IS_SETTINGS) {
-      /* Settings page */
       fillSettings(user, data);
       showOnly('screenSettings');
     } else {
-      /* Normal login — go home */
       $('redirectOverlay').classList.add('show');
       window.location.replace('index.html');
     }
   } catch (err) {
     console.error('Firestore error:', err);
-    /* Firestore failed but user is logged in */
     if (IS_SETTINGS) {
       fillSettingsFallback(user);
       showOnly('screenSettings');
     } else {
-      $('redirectOverlay').classList.add('show');
       window.location.replace('index.html');
     }
   }
 });
-
 /* ════════════════════════════════
    SIGN IN SCREEN
    ════════════════════════════════ */
