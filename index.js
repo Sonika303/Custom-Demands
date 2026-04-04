@@ -67,7 +67,11 @@ auth.onAuthStateChanged(async user => {
   if (mobAuthLink) { mobAuthLink.textContent = 'Account Settings'; mobAuthLink.href = 'auth.html?settings'; }
 });
 
-navUserBtn.addEventListener('click', e => { e.stopPropagation(); navDd.classList.toggle('open'); });
+navUserBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const open = navDd.classList.toggle('open');
+  navUserBtn.setAttribute('aria-expanded', open);
+});
 document.addEventListener('click', e => { if (!navUser.contains(e.target)) navDd.classList.remove('open'); });
 navSignOut.addEventListener('click', async () => { navDd.classList.remove('open'); await auth.signOut(); });
 
@@ -80,6 +84,7 @@ ham.addEventListener('click', e => {
   e.stopPropagation();
   const open = mobMenu.classList.toggle('open');
   ham.classList.toggle('open', open);
+  ham.setAttribute('aria-expanded', open);
 });
 document.addEventListener('click', e => {
   if (!ham.contains(e.target) && !mobMenu.contains(e.target)) closeMob();
