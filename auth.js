@@ -33,7 +33,7 @@ function showOnly(id) {
 
 function avatarURL(user) {
   return user.photoURL ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=0a0a0a&color=fff&size=80&bold=true`;
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=1a1a1a&color=fff&size=80&bold=true`;
 }
 
 function validateU(u) {
@@ -70,9 +70,9 @@ auth.onAuthStateChanged(async user => {
       data = newData;
     }
 
-    const hasUsername = data.username && data.username.length >= 3;
+    const hasUN = data.username && data.username.length >= 3;
 
-    if (!hasUsername) {
+    if (!hasUN) {
       $('upAvatar').src           = avatarURL(user);
       $('upName').textContent     = user.displayName || 'New User';
       $('upEmail').textContent    = user.email       || '';
