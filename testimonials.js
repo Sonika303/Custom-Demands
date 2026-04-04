@@ -37,8 +37,8 @@ const TESTIMONIALS = [
     handle:    "@shreyaarts",
     rating:    5,
     text:      "Absolutely obsessed with my kawaii bunny stickers!! The quality is amazing and the artist understood exactly what I wanted. Will order again for sure! 🌸",
-    media:     null,            // e.g. "testimonials/shreya-review.jpg"
-    mediaType: null,            // "image" or "video"
+    media:     "testimonials/pain1.png",            // e.g. "testimonials/shreya-review.jpg"
+    mediaType: "image",          // "image" or "video"
     style:     "kawaii",
     date:      "Dec 2024"
   },

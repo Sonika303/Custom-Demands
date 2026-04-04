@@ -32,9 +32,9 @@ const STICKERS = [
 
   {
     id:    1,
-    name:  "Sticker Design 1",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,          // Replace null with "images/sticker1.jpg" when ready
+    name:  "Pain 1",
+    desc:  "Pain......",
+    image: "images/pain1.jpg",          // Replace null with "images/sticker1.jpg" when ready
     style: "sticker"
   },
 
