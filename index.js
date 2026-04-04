@@ -38,7 +38,7 @@ const mobAuthLink = document.getElementById('mobAuthLink');
 
 function avatarURL(user) {
   return user.photoURL ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=0a0a0a&color=fff&size=80&bold=true`;
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=1a1a1a&color=fff&size=80&bold=true`;
 }
 
 auth.onAuthStateChanged(async user => {
@@ -48,15 +48,12 @@ auth.onAuthStateChanged(async user => {
     if (mobAuthLink) { mobAuthLink.textContent = 'Sign In'; mobAuthLink.href = 'auth.html'; }
     return;
   }
-
   navSignIn.style.display = 'none';
   navUser.style.display   = 'flex';
-
   const photo = avatarURL(user);
   navAvatar.src   = photo;
   navDdAvatar.src = photo;
   navDdEmail.textContent = user.email || '';
-
   try {
     const snap  = await db.ref('users/' + user.uid).once('value');
     const data  = snap.exists() ? snap.val() : null;
@@ -67,31 +64,18 @@ auth.onAuthStateChanged(async user => {
     navUsername.textContent = user.displayName || 'User';
     navDdName.textContent   = user.displayName || 'User';
   }
-
   if (mobAuthLink) { mobAuthLink.textContent = 'Account Settings'; mobAuthLink.href = 'auth.html?settings'; }
 });
 
-navUserBtn.addEventListener('click', e => {
-  e.stopPropagation();
-  navDd.classList.toggle('open');
-});
-document.addEventListener('click', e => {
-  if (!navUser.contains(e.target)) navDd.classList.remove('open');
-});
-
-navSignOut.addEventListener('click', async () => {
-  navDd.classList.remove('open');
-  await auth.signOut();
-});
+navUserBtn.addEventListener('click', e => { e.stopPropagation(); navDd.classList.toggle('open'); });
+document.addEventListener('click', e => { if (!navUser.contains(e.target)) navDd.classList.remove('open'); });
+navSignOut.addEventListener('click', async () => { navDd.classList.remove('open'); await auth.signOut(); });
 
 const nav = document.getElementById('mainNav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 8);
-}, { passive: true });
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
 
 const ham     = document.getElementById('ham');
 const mobMenu = document.getElementById('mobMenu');
-
 ham.addEventListener('click', e => {
   e.stopPropagation();
   const open = mobMenu.classList.toggle('open');
@@ -100,20 +84,12 @@ ham.addEventListener('click', e => {
 document.addEventListener('click', e => {
   if (!ham.contains(e.target) && !mobMenu.contains(e.target)) closeMob();
 });
-
-function closeMob() {
-  mobMenu.classList.remove('open');
-  ham.classList.remove('open');
-}
+function closeMob() { mobMenu.classList.remove('open'); ham.classList.remove('open'); }
 window.closeMob = closeMob;
 
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const t = document.querySelector(a.getAttribute('href'));
-    if (t) {
-      e.preventDefault();
-      closeMob();
-      window.scrollTo({ top: t.offsetTop - 74, behavior: 'smooth' });
-    }
+    if (t) { e.preventDefault(); closeMob(); window.scrollTo({ top: t.offsetTop - 74, behavior: 'smooth' }); }
   });
 });
