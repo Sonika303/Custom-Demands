@@ -1,31 +1,9 @@
 /* ============================================================
    CUSTOM DEMANDS — data/stickers.js
    ============================================================
-
-   HOW TO EDIT:
-   ─────────────────────────────────────────────────────────
-   Each object in the STICKERS array is one card on the site.
-
-   Fields:
-     id       → unique number (keep sequential)
-     name     → card title shown on the website
-     desc     → short description shown under the name
-     image    → path to image. Options:
-                  null           → shows numbered placeholder
-                  "images/s1.jpg"→ your image in /images/ folder
-     style    → art style tag shown on the card
-                  "kawaii" | "chibi" | "anime" | "anything" | "sticker"
-
-   TO ADD A NEW CARD:
-     Copy any object, paste it at the end of the array,
-     increment the id, update name/desc/image/style, save.
-
-   TO REMOVE A CARD:
-     Delete the entire { ... } object for that card.
-
-   TO CHANGE AN IMAGE:
-     Put your image in the /images/ folder, then set
-     image: "images/your-filename.jpg"
+   TO ADD:    Copy any { } block, paste at end, increment id
+   TO REMOVE: Delete the entire { } block
+   TO ADD IMAGE: Put file in /images/, set image:"images/name.jpg"
    ============================================================ */
 
 const STICKERS = [
@@ -34,7 +12,7 @@ const STICKERS = [
     id:    1,
     name:  "Pain 1",
     desc:  "Pain......",
-    image: "images/pain1.jpg",          // Replace null with "images/sticker1.jpg" when ready
+    image: "images/pain1.jpg",
     style: "sticker"
   },
 
@@ -118,16 +96,13 @@ const STICKERS = [
     style: "sticker"
   }
 
-  /* ── TEMPLATE — copy & paste below this line to add a new card ──
-
+  /*  ── ADD NEW CARD TEMPLATE ──
   ,{
     id:    12,
     name:  "Your Sticker Name",
     desc:  "Your description here.",
-    image: null,          // or "images/your-image.jpg"
-    style: "sticker"      // kawaii | chibi | anime | anything | sticker
+    image: null,
+    style: "sticker"
   }
-
-  ── END TEMPLATE ── */
-
+  */
 ];

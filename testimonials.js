@@ -1,32 +1,10 @@
 /* ============================================================
    CUSTOM DEMANDS — data/testimonials.js
    ============================================================
-
-   HOW TO EDIT:
-   ─────────────────────────────────────────────────────────
-   Each object in TESTIMONIALS is one review card on the site.
-
-   Fields:
-     id        → unique number (keep sequential)
-     name      → customer's name
-     handle    → their social handle e.g. "@shreyaarts" (optional, use "" to hide)
-     rating    → number 1–5 (shows filled stars)
-     text      → their review text (keep under ~200 chars for best display)
-     media     → path to image or video in /testimonials/ folder (or null)
-     mediaType → "image" | "video" | null
-     style     → which art style they ordered: "kawaii"|"chibi"|"anime"|"anything"|"sticker"
-     date      → display date string e.g. "Jan 2025"
-
-   MEDIA FILES:
-     Put all customer photos and videos inside the /testimonials/ folder.
-     Then set:  media: "testimonials/customer-photo.jpg"
-            or  media: "testimonials/customer-review.mp4"
-
-   TO ADD A REVIEW:
-     Copy the template at the bottom, paste it, fill in the details.
-
-   TO REMOVE A REVIEW:
-     Delete the entire { ... } object.
+   TO ADD:    Copy the template block, paste at end, fill in
+   TO REMOVE: Delete the entire { } block
+   MEDIA:     Put files in /testimonials/ folder
+              Set media:"testimonials/filename.jpg" or .mp4
    ============================================================ */
 
 const TESTIMONIALS = [
@@ -37,8 +15,8 @@ const TESTIMONIALS = [
     handle:    "@shreyaarts",
     rating:    5,
     text:      "Absolutely obsessed with my kawaii bunny stickers!! The quality is amazing and the artist understood exactly what I wanted. Will order again for sure! 🌸",
-    media:     "testimonials/pain1.png",            // e.g. "testimonials/shreya-review.jpg"
-    mediaType: "image",          // "image" or "video"
+    media:     "testimonials/pain1.png",
+    mediaType: "image",
     style:     "kawaii",
     date:      "Dec 2024"
   },
@@ -103,20 +81,17 @@ const TESTIMONIALS = [
     date:      "Mar 2025"
   }
 
-  /* ── TEMPLATE — copy & paste below to add a review ──
-
+  /*  ── ADD NEW REVIEW TEMPLATE ──
   ,{
     id:        7,
     name:      "Customer Name",
-    handle:    "@handle",           // or "" to hide
-    rating:    5,                   // 1 to 5
+    handle:    "@handle",
+    rating:    5,
     text:      "Their review text here.",
-    media:     "testimonials/photo.jpg",   // or null
-    mediaType: "image",             // "image" | "video" | null
-    style:     "sticker",           // kawaii | chibi | anime | anything | sticker
+    media:     "testimonials/photo.jpg",
+    mediaType: "image",
+    style:     "sticker",
     date:      "Apr 2025"
   }
-
-  ── END TEMPLATE ── */
-
+  */
 ];
