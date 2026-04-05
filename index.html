@@ -4,43 +4,35 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Custom Demands — Custom Stickers, Kawaii, Chibi & Anime Art | India</title>
-  <meta name="description" content="Custom Demands — Order 100% custom stickers in Kawaii, Chibi, Anime or any art style. Die-cut, high-quality, made exactly how you want. Order now."/>
-  <meta name="keywords" content="custom demands, custom stickers, kawaii stickers, chibi stickers, anime stickers, custom art stickers, personalised stickers india, die cut stickers, kawaii art india, chibi art custom, anime custom sticker, order custom stickers india"/>
+  <meta name="description" content="Custom Demands — Order 100% custom stickers in Kawaii, Chibi, Anime or any art style. Die-cut, high-quality, made exactly how you want."/>
+  <meta name="keywords" content="custom demands, custom stickers, kawaii stickers, chibi stickers, anime stickers, custom art stickers, personalised stickers india, die cut stickers"/>
   <meta name="author" content="Custom Demands"/>
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+  <meta name="robots" content="index, follow"/>
   <meta name="theme-color" content="#f0a500"/>
   <link rel="canonical" href="https://customdemands.in/"/>
-
-  <meta property="og:type"         content="website"/>
-  <meta property="og:site_name"    content="Custom Demands"/>
-  <meta property="og:title"        content="Custom Demands — Custom Stickers, Kawaii, Chibi & Anime Art"/>
-  <meta property="og:description"  content="Order 100% custom stickers in Kawaii, Chibi, Anime or any art style. Die-cut, high-quality, made exactly how you want."/>
-  <meta property="og:url"          content="https://customdemands.in/"/>
-  <meta property="og:image"        content="https://customdemands.in/favicon.png"/>
-  <meta property="og:locale"       content="en_IN"/>
-
-  <meta name="twitter:card"        content="summary_large_image"/>
-  <meta name="twitter:title"       content="Custom Demands — Custom Stickers, Kawaii, Chibi & Anime Art"/>
-  <meta name="twitter:description" content="Order 100% custom stickers in Kawaii, Chibi, Anime or any art style. Die-cut, high-quality, made exactly how you want."/>
-  <meta name="twitter:image"       content="https://customdemands.in/favicon.png"/>
-
+  <meta property="og:type"        content="website"/>
+  <meta property="og:title"       content="Custom Demands — Custom Stickers, Kawaii, Chibi & Anime Art"/>
+  <meta property="og:description" content="Order 100% custom stickers in Kawaii, Chibi, Anime or any art style."/>
+  <meta property="og:url"         content="https://customdemands.in/"/>
+  <meta property="og:image"       content="https://customdemands.in/favicon.png"/>
+  <meta name="twitter:card"       content="summary_large_image"/>
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org","@type":"LocalBusiness",
-    "name":"Custom Demands","description":"Custom stickers in kawaii, chibi, anime or any art style. 100% custom made, no templates.",
-    "url":"https://customdemands.in","logo":"https://customdemands.in/favicon.png",
-    "priceRange":"₹₹","currenciesAccepted":"INR","areaServed":"India",
-    "sameAs":["https://whatsapp.com/channel/0029VbC5Spn0AgW7cO3rnr2Q"],
-    "contactPoint":{"@type":"ContactPoint","contactType":"customer service","url":"https://forms.gle/drrjRG7ptcdLWmaa8"}
-  }
+  {"@context":"https://schema.org","@type":"LocalBusiness","name":"Custom Demands","description":"Custom stickers in kawaii, chibi, anime or any art style.","url":"https://customdemands.in","areaServed":"India"}
   </script>
-
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="apple-touch-icon" href="favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="index.css"/>
+
+  <!--
+  ════════════════════════════════════════════════════════════
+   DATA FILES — loaded in <head> so they are 100% available
+   before index.js runs. Never move these below index.js.
+  ════════════════════════════════════════════════════════════ -->
+  <script src="data/stickers.js"></script>
+  <script src="data/testimonials.js"></script>
 </head>
 <body>
 
@@ -50,7 +42,6 @@
       <img src="favicon.png" alt="Custom Demands Logo" class="nav-fav" width="32" height="32"/>
       <span>Custom<strong>Demands</strong></span>
     </a>
-
     <div class="nav-links">
       <a href="#stickers">Stickers</a>
       <a href="#artstyles">Art Styles</a>
@@ -61,12 +52,11 @@
         Join Channel
       </a>
     </div>
-
     <div class="nav-right">
       <a href="auth.html" class="nav-signin" id="navSignIn">Sign In</a>
       <div class="nav-user" id="navUser" style="display:none">
         <button class="nav-user-btn" id="navUserBtn">
-          <img src="" alt="User avatar" id="navAvatar" class="nav-avatar"/>
+          <img src="" alt="" id="navAvatar" class="nav-avatar"/>
           <span id="navUsername">User</span>
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
@@ -97,10 +87,10 @@
 
   <!-- MOBILE MENU -->
   <div class="mob-menu" id="mobMenu">
-    <a href="#stickers"      onclick="closeMob()">Stickers</a>
-    <a href="#artstyles"     onclick="closeMob()">Art Styles</a>
-    <a href="#testimonials"  onclick="closeMob()">Reviews</a>
-    <a href="#about"         onclick="closeMob()">About</a>
+    <a href="#stickers"     onclick="closeMob()">Stickers</a>
+    <a href="#artstyles"    onclick="closeMob()">Art Styles</a>
+    <a href="#testimonials" onclick="closeMob()">Reviews</a>
+    <a href="#about"        onclick="closeMob()">About</a>
     <a href="https://whatsapp.com/channel/0029VbC5Spn0AgW7cO3rnr2Q" target="_blank" rel="noopener">WhatsApp Channel</a>
     <a href="auth.html" id="mobAuthLink">Sign In</a>
   </div>
@@ -111,13 +101,11 @@
       <p class="hero-eye">✦ Made to Order. Built for You.</p>
       <h1 class="hero-title">Custom<br/><span>Demands</span></h1>
       <p class="hero-sub">Custom stickers in <strong>Kawaii</strong>, <strong>Chibi</strong>, <strong>Anime</strong> or literally <strong>any art style</strong> you love. High-quality die-cut, made exactly how you want.</p>
-
       <div class="hero-cats">
-        <a href="#stickers"  class="hero-cat sk-pill">✨ Custom Stickers</a>
-        <a href="#artstyles" class="hero-cat art-pill">🎨 Art Styles</a>
+        <a href="#stickers"     class="hero-cat sk-pill">✨ Custom Stickers</a>
+        <a href="#artstyles"    class="hero-cat art-pill">🎨 Art Styles</a>
         <a href="#testimonials" class="hero-cat rev-pill">⭐ Reviews</a>
       </div>
-
       <div class="hero-btns">
         <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener" class="btn-cta">✦ Create Custom Demand</a>
         <a href="https://whatsapp.com/channel/0029VbC5Spn0AgW7cO3rnr2Q" target="_blank" rel="noopener" class="btn-wa">
@@ -126,7 +114,6 @@
         </a>
       </div>
     </div>
-
     <div class="hero-right" aria-hidden="true">
       <div class="hero-badge">
         <img src="favicon.png" alt="Custom Demands" width="66" height="66"/>
@@ -155,15 +142,16 @@
     </div>
   </div>
 
-  <!-- ═══ STICKERS — rendered by JS from data/stickers.js ═══ -->
+  <!-- ═══ STICKERS — grid filled by index.js from data/stickers.js ═══ -->
   <section class="section" id="stickers">
     <div class="sec-head">
       <p class="sec-tag">Custom Stickers</p>
       <h2 class="sec-title">Our<span>Stickers</span></h2>
       <p class="sec-sub">Die-cut, high-quality custom stickers — your design, any size, any art style.</p>
     </div>
-    <!-- Cards injected here by index.js -->
-    <div class="cards-grid" id="stickerGrid"></div>
+    <div class="cards-grid" id="stickerGrid">
+      <!-- Cards injected by index.js -->
+    </div>
   </section>
 
   <!-- MID CTA -->
@@ -179,9 +167,7 @@
       <h2 class="sec-title">Art<span>Styles</span></h2>
       <p class="sec-sub">Pick your favourite art style — we craft your sticker exactly in that aesthetic.</p>
     </div>
-
     <div class="styles-grid">
-
       <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener" class="style-card kawaii-card">
         <div class="style-top"><div class="style-emoji">🌸</div><span class="style-badge kawaii-badge">Most Loved</span></div>
         <h3 class="style-name">Kawaii</h3>
@@ -189,7 +175,6 @@
         <ul class="style-tags"><li>Pastel colors</li><li>Big round eyes</li><li>Soft shapes</li><li>Cute expressions</li></ul>
         <div class="style-cta-btn kawaii-btn">Order Kawaii →</div>
       </a>
-
       <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener" class="style-card chibi-card">
         <div class="style-top"><div class="style-emoji">🥰</div><span class="style-badge chibi-badge">Super Cute</span></div>
         <h3 class="style-name">Chibi</h3>
@@ -197,7 +182,6 @@
         <ul class="style-tags"><li>Giant head ratio</li><li>Tiny body</li><li>Anime inspired</li><li>Bold outlines</li></ul>
         <div class="style-cta-btn chibi-btn">Order Chibi →</div>
       </a>
-
       <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener" class="style-card anime-card">
         <div class="style-top"><div class="style-emoji">⚡</div><span class="style-badge anime-badge">Fan Favourite</span></div>
         <h3 class="style-name">Anime</h3>
@@ -205,7 +189,6 @@
         <ul class="style-tags"><li>Dynamic linework</li><li>Dramatic shading</li><li>Bold outlines</li><li>Expressive faces</li></ul>
         <div class="style-cta-btn anime-btn">Order Anime →</div>
       </a>
-
       <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener" class="style-card anything-card">
         <div class="style-top"><div class="style-emoji">✦</div><span class="style-badge anything-badge">No Limits</span></div>
         <h3 class="style-name">ANYTHING</h3>
@@ -213,20 +196,19 @@
         <ul class="style-tags"><li>Any art style</li><li>Your imagination</li><li>No limits</li><li>100% custom</li></ul>
         <div class="style-cta-btn anything-btn">Order Any Style →</div>
       </a>
-
     </div>
   </section>
 
-  <!-- ═══ TESTIMONIALS — rendered by JS from data/testimonials.js ═══ -->
-  <section class="section" id="testimonials">
+  <!-- ═══ TESTIMONIALS — grid filled by index.js from data/testimonials.js ═══ -->
+  <section class="section sec-soft" id="testimonials">
     <div class="sec-head">
       <p class="sec-tag">Happy Customers</p>
       <h2 class="sec-title">Real<span>Reviews</span></h2>
       <p class="sec-sub">What our customers say about their Custom Demands orders.</p>
     </div>
-    <!-- Review cards injected here by index.js -->
-    <div class="reviews-grid" id="reviewsGrid"></div>
-
+    <div class="reviews-grid" id="reviewsGrid">
+      <!-- Review cards injected by index.js -->
+    </div>
     <div class="reviews-cta">
       <p>Love your order? Share your review!</p>
       <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener" class="btn-cta sm">✦ Order &amp; Leave a Review</a>
@@ -248,7 +230,7 @@
   </section>
 
   <!-- ═══ ABOUT ═══ -->
-  <section class="section sec-soft" id="about">
+  <section class="section" id="about">
     <div class="about-grid">
       <div class="about-left">
         <p class="sec-tag">About Us</p>
@@ -297,16 +279,14 @@
     </div>
   </footer>
 
-  <!-- Data files loaded first -->
-  <script src="data/stickers.js"></script>
-  <script src="data/testimonials.js"></script>
-
-  <!-- Firebase -->
+  <!--
+  ════════════════════════════════════════════════════════════
+   Firebase + main JS — loaded at end of body.
+   Data files are already loaded from <head> above.
+  ════════════════════════════════════════════════════════════ -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-
-  <!-- Main logic -->
   <script src="index.js"></script>
 </body>
 </html>
