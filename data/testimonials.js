@@ -24,7 +24,7 @@ const TESTIMONIALS = [
   {
     id:        2,
     name:      "Arjun K.",
-    handle:    "@arjun.ink",
+    handle:    "",
     rating:    5,
     text:      "Got a chibi version of my OC and it came out PERFECT. The outlines are so crisp and the expression is exactly right. 10/10 recommend Custom Demands!",
     media:     null,
