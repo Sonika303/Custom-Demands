@@ -11,7 +11,7 @@ const TESTIMONIALS = [
 
   {
     id:        1,
-    name:      "chetan.",
+    name:      "chetan",
     handle:    "@chetan",
     rating:    5,
     text:      "Absolutely obsessed with my kawaii bunny stickers!! The quality is amazing and the artist understood exactly what I wanted. Will order again for sure! 🌸",
