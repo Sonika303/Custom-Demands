@@ -31,55 +31,8 @@ const TESTIMONIALS = [
     mediaType: null,
     style:     "chibi",
     date:      "Jan 2025"
-  },
-
-  {
-    id:        3,
-    name:      "Priya R.",
-    handle:    "",
-    rating:    5,
-    text:      "Ordered a custom anime sticker pack for my laptop. The shading and linework is genuinely impressive. Fast delivery and super responsive. Love it!",
-    media:     null,
-    mediaType: null,
-    style:     "anime",
-    date:      "Jan 2025"
-  },
-
-  {
-    id:        4,
-    name:      "Rohan S.",
-    handle:    "@rohan.creates",
-    rating:    5,
-    text:      "I sent in a rough sketch and they turned it into something stunning. The attention to detail is unreal. My friends keep asking where I got it from.",
-    media:     null,
-    mediaType: null,
-    style:     "anything",
-    date:      "Feb 2025"
-  },
-
-  {
-    id:        5,
-    name:      "Naina T.",
-    handle:    "@nainadraws",
-    rating:    5,
-    text:      "The kawaii stickers turned out even cuter than I imagined 😭✨ Packaging was careful and they arrived in perfect condition. Highly recommend!",
-    media:     null,
-    mediaType: null,
-    style:     "kawaii",
-    date:      "Feb 2025"
-  },
-
-  {
-    id:        6,
-    name:      "Vikram D.",
-    handle:    "",
-    rating:    4,
-    text:      "Really happy with my order. The quality is great and the process was smooth. Took a couple of days longer than expected but totally worth the wait.",
-    media:     null,
-    mediaType: null,
-    style:     "sticker",
-    date:      "Mar 2025"
   }
+
 
   /*  ── ADD NEW REVIEW TEMPLATE ──
   ,{
