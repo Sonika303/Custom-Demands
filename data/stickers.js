@@ -40,8 +40,16 @@ const STICKERS = [
     style: "sticker"
   },
 
-  {
+    {
     id:    5,
+    name:  "Hello Kitty 4",
+    desc:  "Hello Kitty sitting and holding a strawberry, looking adorable and sweet",
+    image: "images/HelloKitty4.png",
+    style: "sticker"
+  },
+
+  {
+    id:    6,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
