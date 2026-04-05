@@ -11,8 +11,8 @@ const TESTIMONIALS = [
 
   {
     id:        1,
-    name:      "chetan",
-    handle:    "@chetan",
+    name:      "Chetan",
+    handle:    "",
     rating:    5,
     text:      "Absolutely obsessed with my pain stickers!! The quality is amazing and they understood exactly what I wanted. Will order again for sure!",
     media:     "testimonials/pain1.png",
