@@ -42,10 +42,10 @@ const STICKERS = [
 
   {
     id:    5,
-    name:  "Anime Fan Art",
-    desc:  "Anime-style fan art sticker with dynamic shading and crisp linework.",
-    image: null,
-    style: "sticker"
+    name:  "Gojo 1",
+    desc:  "Gojo Satoru Head with his sunglasses",
+    image: "images/gojo1.png",
+    style: "anime"
   },
 
   {
