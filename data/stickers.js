@@ -12,7 +12,7 @@ const STICKERS = [
     id:    1,
     name:  "Pain 1",
     desc:  "Pain......",
-    image: "images/pain1.jpg",
+    image: "images/pain1.png",
     style: "sticker"
   },
 
