@@ -21,7 +21,7 @@ const STICKERS = [
     name:  "Hello Kitty 1",
     desc:  "Hello Kitty Standing",
     image: "images/HelloKitty1.png",
-    style: "sticker"
+    style: "hellokitty"
   },
 
   {
@@ -29,7 +29,7 @@ const STICKERS = [
     name:  "Hello Kitty 2",
     desc:  "Adorable Hello Kitty peeking out from behind a ribbon",
     image: "images/HelloKitty2.png",
-    style: "sticker"
+    style: "hellokitty"
   },
 
   {
@@ -37,15 +37,15 @@ const STICKERS = [
     name:  "Hello Kitty 3",
     desc:  "Hello Kitty head with a cute red bow",
     image: "images/HelloKitty3.png",
-    style: "sticker"
+    style: "hellokitty"
   },
 
-    {
+  {
     id:    5,
     name:  "Hello Kitty 4",
     desc:  "Hello Kitty sitting and holding a strawberry, looking adorable and sweet",
     image: "images/HelloKitty4.png",
-    style: "sticker"
+    style: "hellokitty"
   },
 
   {
@@ -58,11 +58,11 @@ const STICKERS = [
 
   /*  ── ADD NEW CARD TEMPLATE ──
   ,{
-    id:    12,
+    id:    7,
     name:  "Your Sticker Name",
     desc:  "Your description here.",
-    image: null,
-    style: "sticker"
+    image: null,          // or "images/your-image.png"
+    style: "sticker"      // sticker | kawaii | chibi | anime | hellokitty | anything
   }
   */
 ];
