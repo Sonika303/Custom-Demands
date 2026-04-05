@@ -13,14 +13,14 @@ const STICKERS = [
     name:  "Pain 1",
     desc:  "Pain Staring",
     image: "images/pain1.png",
-    style: "sticker"
+    style: "anime"
   },
 
   {
     id:    2,
-    name:  "Sticker Design 2",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,
+    name:  "Hello Kitty 1",
+    desc:  "Hello Kitty Standing.",
+    image: "images/HelloKitty1.png",
     style: "sticker"
   },
 
@@ -29,7 +29,7 @@ const STICKERS = [
     name:  "Kawaii Bunny Pack",
     desc:  "Adorable kawaii bunny sticker set — pastel pinks and big sparkly eyes.",
     image: null,
-    style: "kawaii"
+    style: "sticker"
   },
 
   {
@@ -37,7 +37,7 @@ const STICKERS = [
     name:  "Chibi Character",
     desc:  "Your favourite anime character in full chibi style with bold outlines.",
     image: null,
-    style: "chibi"
+    style: "sticker"
   },
 
   {
@@ -45,7 +45,7 @@ const STICKERS = [
     name:  "Anime Fan Art",
     desc:  "Anime-style fan art sticker with dynamic shading and crisp linework.",
     image: null,
-    style: "anime"
+    style: "sticker"
   },
 
   {
