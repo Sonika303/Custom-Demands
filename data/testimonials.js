@@ -14,11 +14,11 @@ const TESTIMONIALS = [
     name:      "chetan",
     handle:    "@chetan",
     rating:    5,
-    text:      "Absolutely obsessed with my kawaii bunny stickers!! The quality is amazing and the artist understood exactly what I wanted. Will order again for sure! 🌸",
+    text:      "Absolutely obsessed with my pain stickers!! The quality is amazing and they understood exactly what I wanted. Will order again for sure!",
     media:     "testimonials/pain1.png",
     mediaType: "image",
-    style:     "kawaii",
-    date:      "Dec 2024"
+    style:     "anime",
+    date:      "January 2026"
   },
 
   {
