@@ -35,7 +35,7 @@ const STICKERS = [
   {
     id:    4,
     name:  "Hello Kitty 3",
-    desc:  "Hello Kitty with a cute expression, perfect for stickers",
+    desc:  "Hello Kitty head with a cute red bow",
     image: "images/HelloKitty3.png",
     style: "sticker"
   },

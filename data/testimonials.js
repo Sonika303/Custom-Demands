@@ -36,7 +36,7 @@ const TESTIMONIALS = [
 
   /*  ── ADD NEW REVIEW TEMPLATE ──
   ,{
-    id:        7,
+    id:        3,
     name:      "Customer Name",
     handle:    "@handle",
     rating:    5,
