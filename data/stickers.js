@@ -46,54 +46,6 @@ const STICKERS = [
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
     style: "anime"
-  },
-
-  {
-    id:    6,
-    name:  "Sticker Design 6",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,
-    style: "sticker"
-  },
-
-  {
-    id:    7,
-    name:  "Sticker Design 7",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,
-    style: "sticker"
-  },
-
-  {
-    id:    8,
-    name:  "Sticker Design 8",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,
-    style: "sticker"
-  },
-
-  {
-    id:    9,
-    name:  "Sticker Design 9",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,
-    style: "sticker"
-  },
-
-  {
-    id:    10,
-    name:  "Sticker Design 10",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,
-    style: "sticker"
-  },
-
-  {
-    id:    11,
-    name:  "Sticker Design 11",
-    desc:  "Custom die-cut sticker — your art, your colors, your style.",
-    image: null,
-    style: "sticker"
   }
 
   /*  ── ADD NEW CARD TEMPLATE ──
