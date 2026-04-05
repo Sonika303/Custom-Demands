@@ -19,16 +19,16 @@ const STICKERS = [
   {
     id:    2,
     name:  "Hello Kitty 1",
-    desc:  "Hello Kitty Standing.",
+    desc:  "Hello Kitty Standing",
     image: "images/HelloKitty1.png",
     style: "sticker"
   },
 
   {
     id:    3,
-    name:  "Kawaii Bunny Pack",
-    desc:  "Adorable kawaii bunny sticker set — pastel pinks and big sparkly eyes.",
-    image: null,
+    name:  "Hello Kitty 2",
+    desc:  "Adorable Hello Kitty peeking out from behind a ribbon",
+    image: "images/HelloKitty2.png",
     style: "sticker"
   },
 
