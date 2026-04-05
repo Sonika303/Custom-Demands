@@ -34,9 +34,9 @@ const STICKERS = [
 
   {
     id:    4,
-    name:  "Chibi Character",
-    desc:  "Your favourite anime character in full chibi style with bold outlines.",
-    image: null,
+    name:  "Hello Kitty 3",
+    desc:  "Hello Kitty sitting with a cute expression, perfect for stickers",
+    image: "images/HelloKitty3.png",
     style: "sticker"
   },
 
