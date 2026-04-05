@@ -21,8 +21,10 @@ auth.onAuthStateChanged(async user=>{
     let data=await getUserData(user.uid);
     if(!data){const nd={uid:user.uid,email:user.email||'',displayName:user.displayName||'',photoURL:user.photoURL||'',username:'',createdAt:Date.now()};await userRef(user.uid).set(nd);data=nd;}
     const hasUN=data.username&&data.username.length>=3;
-    if(!hasUN){$('upAvatar').src=avatarURL(user);$('upName').textContent=user.displayName||'New User';$('upEmail').textContent=user.email||'';$('unInput').value='';$('unError').textContent='';showOnly('screenUsername');setTimeout(()=>$('unInput').focus(),280);}
-    else if(IS_SETTINGS){fillSettings(user,data);showOnly('screenSettings');}
+    if(!hasUN){
+      $('upAvatar').src=avatarURL(user);$('upName').textContent=user.displayName||'New User';$('upEmail').textContent=user.email||'';$('unInput').value='';$('unError').textContent='';
+      showOnly('screenUsername');setTimeout(()=>$('unInput').focus(),280);
+    }else if(IS_SETTINGS){fillSettings(user,data);showOnly('screenSettings');}
     else{$('alreadyAvatar').src=avatarURL(user);$('alreadyTitle').textContent='Hey, @'+data.username;$('alreadyEmail').textContent=user.email||'';showOnly('screenAlready');}
   }catch(err){
     console.error('DB:',err);
@@ -36,11 +38,17 @@ const GHTML=$('btnGoogle').innerHTML;
 $('btnGoogle').addEventListener('click',async()=>{
   $('signInError').textContent='';$('btnGoogle').disabled=true;$('btnGoogle').innerHTML='<span class="btn-google-spinner"></span>&nbsp; Connecting…';
   try{await auth.signInWithPopup(provider);}
-  catch(err){$('btnGoogle').disabled=false;$('btnGoogle').innerHTML=GHTML;const m={'auth/popup-closed-by-user':'Sign-in cancelled.','auth/popup-blocked':'Popup blocked — allow popups.','auth/network-request-failed':'Network error.','auth/cancelled-popup-request':'Only one sign-in at a time.'};$('signInError').textContent=m[err.code]||'Sign-in failed. Try again.';}
+  catch(err){
+    $('btnGoogle').disabled=false;$('btnGoogle').innerHTML=GHTML;
+    const m={'auth/popup-closed-by-user':'Sign-in cancelled.','auth/popup-blocked':'Popup blocked — allow popups.','auth/network-request-failed':'Network error.','auth/cancelled-popup-request':'Only one sign-in at a time.'};
+    $('signInError').textContent=m[err.code]||'Sign-in failed. Try again.';
+  }
 });
+
 $('btnAlreadySignOut').addEventListener('click',doSignOut);
 $('btnSaveUsername').addEventListener('click',saveNewUsername);
 $('unInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNewUsername();});
+
 async function saveNewUsername(){
   const user=auth.currentUser;if(!user)return;
   const val=$('unInput').value.trim().toLowerCase();const ve=validateU(val);
@@ -53,6 +61,7 @@ async function saveNewUsername(){
     $('redirOverlay').classList.add('show');window.location.replace('index.html');
   }catch(err){console.error(err);$('unError').textContent='Could not save. Please try again.';$('btnSaveUsername').disabled=false;$('btnSaveUsername').textContent='Save & Continue';}
 }
+
 function fillSettings(user,data){
   const u=data.username||user.displayName||'user',p=avatarURL(user);
   $('spAvatar').src=p;$('spUsername').textContent='@'+u;$('spEmail').textContent=user.email||'';
@@ -62,9 +71,18 @@ function fillSettings(user,data){
   $('sError').textContent='';$('sSuccess').textContent='';
 }
 function fillSettingsFallback(user){fillSettings(user,{username:user.displayName||'user',createdAt:null});}
-document.querySelectorAll('.stab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.spanel').forEach(p=>p.classList.remove('active'));tab.classList.add('active');$(tab.dataset.panel).classList.add('active');});});
+
+document.querySelectorAll('.stab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.spanel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');$(tab.dataset.panel).classList.add('active');
+  });
+});
+
 $('btnSaveSettings').addEventListener('click',saveSettings);
 $('settingsUsername').addEventListener('keydown',e=>{if(e.key==='Enter')saveSettings();});
+
 async function saveSettings(){
   const user=auth.currentUser;if(!user)return;
   const val=$('settingsUsername').value.trim().toLowerCase();const ve=validateU(val);
@@ -73,12 +91,20 @@ async function saveSettings(){
   $('btnSaveSettings').disabled=true;$('btnSaveSettings').textContent='Saving…';
   try{
     const data=await getUserData(user.uid),cur=data?data.username:'';
-    if(val!==cur){const snap=await db.ref('users').orderByChild('username').equalTo(val).limitToFirst(1).once('value');if(snap.exists()){$('sError').textContent='Username taken — try another.';$('btnSaveSettings').disabled=false;$('btnSaveSettings').textContent='Save Changes';return;}}
+    if(val!==cur){
+      const snap=await db.ref('users').orderByChild('username').equalTo(val).limitToFirst(1).once('value');
+      if(snap.exists()){$('sError').textContent='Username taken — try another.';$('btnSaveSettings').disabled=false;$('btnSaveSettings').textContent='Save Changes';return;}
+    }
     await userRef(user.uid).update({username:val,updatedAt:Date.now()});
     $('spUsername').textContent='@'+val;$('sSuccess').textContent='✓ Saved successfully!';
     setTimeout(()=>{$('sSuccess').textContent='';},3000);
   }catch(err){console.error(err);$('sError').textContent='Could not save. Please try again.';}
   finally{$('btnSaveSettings').disabled=false;$('btnSaveSettings').textContent='Save Changes';}
 }
+
 $('btnSignOut').addEventListener('click',doSignOut);
-async function doSignOut(){$('redirOverlay').classList.add('show');try{await auth.signOut();window.location.replace('auth.html');}catch(e){$('redirOverlay').classList.remove('show');}}
+async function doSignOut(){
+  $('redirOverlay').classList.add('show');
+  try{await auth.signOut();window.location.replace('auth.html');}
+  catch(e){$('redirOverlay').classList.remove('show');}
+}
