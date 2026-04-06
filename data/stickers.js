@@ -13,7 +13,7 @@ const STICKERS = [
     id:    2,
     name:  "Hello Kitty 1",
     desc:  "Hello Kitty Standing",
-    image: "images/HelloKitty1.png",
+    image: "images/HelloKitty/HelloKitty1.png",
     style: "hellokitty",
     price: 15
   },
@@ -22,7 +22,7 @@ const STICKERS = [
     id:    3,
     name:  "Hello Kitty 2",
     desc:  "Adorable Hello Kitty peeking out from behind a ribbon",
-    image: "images/HelloKitty2.png",
+    image: "images/HelloKitty/HelloKitty2.png",
     style: "hellokitty",
     price: 15
   },
@@ -31,7 +31,7 @@ const STICKERS = [
     id:    4,
     name:  "Hello Kitty 3",
     desc:  "Hello Kitty head with a cute red bow",
-    image: "images/HelloKitty3.png",
+    image: "images/HelloKitty/HelloKitty3.png",
     style: "hellokitty",
     price: 15
   },
@@ -40,7 +40,7 @@ const STICKERS = [
     id:    5,
     name:  "Hello Kitty 4",
     desc:  "Hello Kitty sitting and holding a strawberry, looking adorable and sweet",
-    image: "images/HelloKitty4.png",
+    image: "images/HelloKitty/HelloKitty4.png",
     style: "hellokitty",
     price: 15
   },
