@@ -141,7 +141,7 @@ const STICKERS = [
     desc:  "Hakari doing his domain expansion pose",
     image: "images/hakari1.png",
     style: "anime",
-    price: 100
+    price: 15
   },
 
   {
