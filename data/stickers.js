@@ -137,6 +137,15 @@ const STICKERS = [
 
   {
     id:    16,
+    name:  "Hakari 1",
+    desc:  "Hakari doing his domain expansion pose",
+    image: "images/hakari1.png",
+    style: "anime",
+    price: 100
+  },
+
+  {
+    id:    17,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
