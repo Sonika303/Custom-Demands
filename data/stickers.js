@@ -1,11 +1,3 @@
-/* ============================================================
-   CUSTOM DEMANDS — data/stickers.js
-   ============================================================
-   TO ADD:    Copy any { } block, paste at end, increment id
-   TO REMOVE: Delete the entire { } block
-   TO ADD IMAGE: Put file in /images/, set image:"images/name.jpg"
-   ============================================================ */
-
 const STICKERS = [
 
   {
@@ -13,7 +5,8 @@ const STICKERS = [
     name:  "Pain 1",
     desc:  "Pain Staring",
     image: "images/pain1.png",
-    style: "anime"
+    style: "anime",
+    price: 15
   },
 
   {
@@ -21,7 +14,8 @@ const STICKERS = [
     name:  "Hello Kitty 1",
     desc:  "Hello Kitty Standing",
     image: "images/HelloKitty1.png",
-    style: "hellokitty"
+    style: "hellokitty",
+    price: 15
   },
 
   {
@@ -29,7 +23,8 @@ const STICKERS = [
     name:  "Hello Kitty 2",
     desc:  "Adorable Hello Kitty peeking out from behind a ribbon",
     image: "images/HelloKitty2.png",
-    style: "hellokitty"
+    style: "hellokitty",
+    price: 15
   },
 
   {
@@ -37,7 +32,8 @@ const STICKERS = [
     name:  "Hello Kitty 3",
     desc:  "Hello Kitty head with a cute red bow",
     image: "images/HelloKitty3.png",
-    style: "hellokitty"
+    style: "hellokitty",
+    price: 15
   },
 
   {
@@ -45,7 +41,8 @@ const STICKERS = [
     name:  "Hello Kitty 4",
     desc:  "Hello Kitty sitting and holding a strawberry, looking adorable and sweet",
     image: "images/HelloKitty4.png",
-    style: "hellokitty"
+    style: "hellokitty",
+    price: 15
   },
 
   {
@@ -53,7 +50,8 @@ const STICKERS = [
     name:  "Harry Potter 1",
     desc:  "Chibi Harry Potter holding his wand and wearing his iconic glasses",
     image: "images/HarryPotter1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
 
   {
@@ -61,7 +59,8 @@ const STICKERS = [
     name:  "Hermione Granger 1",
     desc:  "Chibi Hermione Granger with her characteristic bushy hair",
     image: "images/HermioneGranger1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
 
   {
@@ -69,7 +68,8 @@ const STICKERS = [
     name:  "Ron Weasley 1",
     desc:  "Chibi Ron Weasley with his red hair and freckles",
     image: "images/RonWeasley1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
 
   {
@@ -77,47 +77,53 @@ const STICKERS = [
     name:  "Rubeus Hagrid 1",
     desc:  "Chibi Rubeus Hagrid with his characteristic beard and kind eyes",
     image: "images/RubeusHagrid1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
-  
-   {
+
+  {
     id:    10,
     name:  "Severus Snape 1",
     desc:  "Chibi Severus Snape with his characteristic scowl and dark hair",
     image: "images/SeverusSnape1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
 
-    {
+  {
     id:    11,
     name:  "Albus Dumbledore 1",
     desc:  "Chibi Albus Dumbledore with his long beard and half-moon glasses",
     image: "images/AlbusDumbledore1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
 
-   {
+  {
     id:    12,
     name:  "Draco Malfoy 1",
     desc:  "Chibi Draco Malfoy with his slicked-back blonde hair and sly expression",
     image: "images/DracoMalfoy1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
 
-   {
+  {
     id:    13,
     name:  "Luna Lovegood 1",
     desc:  "Chibi Luna Lovegood with her distinctive hair and dreamy eyes with her glasses",
     image: "images/LunaLovegood1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 15
   },
-  
+
   {
     id:    14,
     name:  "Harry Potter Pack 1",
     desc:  "Collection of Harry Potter characters in a cute chibi style",
     image: "images/HarryPotterPack1.png",
-    style: "chibi"
+    style: "harrypotter",
+    price: 100
   },
 
   {
@@ -125,6 +131,7 @@ const STICKERS = [
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
-    style: "anime"
+    style: "anime",
+    price: 15
   }
 ];
