@@ -66,6 +66,54 @@ const STICKERS = [
 
   {
     id:    8,
+    name:  "Ron Weasley 1",
+    desc:  "Chibi Ron Weasley with his red hair and freckles",
+    image: "images/RonWeasley1.png",
+    style: "chibi"
+  },
+
+  {
+    id:    9,
+    name:  "Rubeus Hagrid 1",
+    desc:  "Chibi Rubeus Hagrid with his characteristic beard and kind eyes",
+    image: "images/RubeusHagrid1.png",
+    style: "chibi"
+  },
+  
+   {
+    id:    10,
+    name:  "Severus Snape 1",
+    desc:  "Chibi Severus Snape with his characteristic scowl and dark hair",
+    image: "images/SeverusSnape1.png",
+    style: "chibi"
+  },
+
+    {
+    id:    11,
+    name:  "Albus Dumbledore 1",
+    desc:  "Chibi Albus Dumbledore with his long beard and half-moon glasses",
+    image: "images/AlbusDumbledore1.png",
+    style: "chibi"
+  },
+
+   {
+    id:    12,
+    name:  "Draco Malfoy 1",
+    desc:  "Chibi Draco Malfoy with his slicked-back blonde hair and sly expression",
+    image: "images/DracoMalfoy1.png",
+    style: "chibi"
+  },
+
+   {
+    id:    13,
+    name:  "Luna Lovegood 1",
+    desc:  "Chibi Luna Lovegood with her distinctive hair and dreamy eyes with her glasses",
+    image: "images/LunaLovegood1.png",
+    style: "chibi"
+  },
+
+  {
+    id:    14,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
