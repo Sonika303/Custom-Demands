@@ -119,14 +119,4 @@ const STICKERS = [
     image: "images/gojo1.png",
     style: "anime"
   }
-
-  /*  ── ADD NEW CARD TEMPLATE ──
-  ,{
-    id:    7,
-    name:  "Your Sticker Name",
-    desc:  "Your description here.",
-    image: null,          // or "images/your-image.png"
-    style: "sticker"      // sticker | kawaii | chibi | anime | hellokitty | anything
-  }
-  */
 ];
