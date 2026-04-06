@@ -128,15 +128,6 @@ const STICKERS = [
 
   {
     id:    15,
-    name:  "Harry Potter Pack 1",
-    desc:  "Collection of Harry Potter characters in a cute chibi style",
-    image: "images/HarryPotterPack1.png",
-    style: "harrypotter",
-    price: 100
-  },
-
-  {
-    id:    16,
     name:  "Hakari 1",
     desc:  "Hakari doing his domain expansion pose",
     image: "images/hakari1.png",
@@ -145,7 +136,7 @@ const STICKERS = [
   },
 
   {
-    id:    17,
+    id:    16,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
