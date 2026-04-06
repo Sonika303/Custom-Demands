@@ -4,7 +4,7 @@ const STICKERS = [
     id:    1,
     name:  "Pain 1",
     desc:  "Pain Staring",
-    image: "images/pain1.png",
+    image: "images/anime/pain1.png",
     style: "anime",
     price: 15
   },
@@ -121,7 +121,7 @@ const STICKERS = [
     id:    14,
     name:  "Luffy 1",
     desc:  "Luffy fist in the air friendship symbol",
-    image: "images/luffy1.png",
+    image: "images/anime/luffy1.png",
     style: "anime",
     price: 15
   },
@@ -130,7 +130,7 @@ const STICKERS = [
     id:    15,
     name:  "Hakari 1",
     desc:  "Hakari doing his domain expansion pose",
-    image: "images/hakari1.png",
+    image: "images/anime/hakari1.png",
     style: "anime",
     price: 15
   },
@@ -139,7 +139,7 @@ const STICKERS = [
     id:    16,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
-    image: "images/gojo1.png",
+    image: "images/anime/gojo1.png",
     style: "anime",
     price: 15
   }
