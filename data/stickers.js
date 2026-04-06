@@ -94,7 +94,7 @@ const STICKERS = [
     id:    11,
     name:  "Albus Dumbledore 1",
     desc:  "Chibi Albus Dumbledore with his long beard and half-moon glasses",
-    image: "images/AlbusDumbledore1.png",
+    image: "images/harrypotter/AlbusDumbledore1.png",
     style: "harrypotter",
     price: 15
   },
