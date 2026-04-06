@@ -119,6 +119,15 @@ const STICKERS = [
 
   {
     id:    14,
+    name:  "Luffy 1",
+    desc:  "Luffy fist in the air friendship symbol",
+    image: "images/luffy1.png",
+    style: "anime",
+    price: 15
+  },
+
+  {
+    id:    15,
     name:  "Harry Potter Pack 1",
     desc:  "Collection of Harry Potter characters in a cute chibi style",
     image: "images/HarryPotterPack1.png",
@@ -127,7 +136,7 @@ const STICKERS = [
   },
 
   {
-    id:    15,
+    id:    16,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
