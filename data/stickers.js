@@ -50,6 +50,22 @@ const STICKERS = [
 
   {
     id:    6,
+    name:  "Harry Potter 1",
+    desc:  "Chibi Harry Potter holding his wand and wearing his iconic glasses",
+    image: "images/HarryPotter1.png",
+    style: "chibi"
+  },
+
+  {
+    id:    7,
+    name:  "Hermione Granger 1",
+    desc:  "Chibi Hermione Granger with her characteristic bushy hair",
+    image: "images/HermioneGranger1.png",
+    style: "chibi"
+  },
+
+  {
+    id:    8,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
