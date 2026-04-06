@@ -111,9 +111,17 @@ const STICKERS = [
     image: "images/LunaLovegood1.png",
     style: "chibi"
   },
-
+  
   {
     id:    14,
+    name:  "Harry Potter Pack 1",
+    desc:  "Collection of Harry Potter characters in a cute chibi style",
+    image: "images/HarryPotterPack1.png",
+    style: "chibi"
+  },
+
+  {
+    id:    15,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/gojo1.png",
