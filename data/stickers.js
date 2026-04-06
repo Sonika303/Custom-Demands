@@ -49,7 +49,7 @@ const STICKERS = [
     id:    6,
     name:  "Harry Potter 1",
     desc:  "Chibi Harry Potter holding his wand and wearing his iconic glasses",
-    image: "images/HarryPotter1.png",
+    image: "images/harrypotter/HarryPotter1.png",
     style: "harrypotter",
     price: 15
   },
@@ -58,7 +58,7 @@ const STICKERS = [
     id:    7,
     name:  "Hermione Granger 1",
     desc:  "Chibi Hermione Granger with her characteristic bushy hair",
-    image: "images/HermioneGranger1.png",
+    image: "images/harrypotter/HermioneGranger1.png",
     style: "harrypotter",
     price: 15
   },
@@ -67,7 +67,7 @@ const STICKERS = [
     id:    8,
     name:  "Ron Weasley 1",
     desc:  "Chibi Ron Weasley with his red hair and freckles",
-    image: "images/RonWeasley1.png",
+    image: "images/harrypotter/RonWeasley1.png",
     style: "harrypotter",
     price: 15
   },
@@ -76,7 +76,7 @@ const STICKERS = [
     id:    9,
     name:  "Rubeus Hagrid 1",
     desc:  "Chibi Rubeus Hagrid with his characteristic beard and kind eyes",
-    image: "images/RubeusHagrid1.png",
+    image: "images/harrypotter/RubeusHagrid1.png",
     style: "harrypotter",
     price: 15
   },
@@ -85,7 +85,7 @@ const STICKERS = [
     id:    10,
     name:  "Severus Snape 1",
     desc:  "Chibi Severus Snape with his characteristic scowl and dark hair",
-    image: "images/SeverusSnape1.png",
+    image: "images/harrypotter/SeverusSnape1.png",
     style: "harrypotter",
     price: 15
   },
@@ -103,7 +103,7 @@ const STICKERS = [
     id:    12,
     name:  "Draco Malfoy 1",
     desc:  "Chibi Draco Malfoy with his slicked-back blonde hair and sly expression",
-    image: "images/DracoMalfoy1.png",
+    image: "images/harrypotter/DracoMalfoy1.png",
     style: "harrypotter",
     price: 15
   },
@@ -112,7 +112,7 @@ const STICKERS = [
     id:    13,
     name:  "Luna Lovegood 1",
     desc:  "Chibi Luna Lovegood with her distinctive hair and dreamy eyes with her glasses",
-    image: "images/LunaLovegood1.png",
+    image: "images/harrypotter/LunaLovegood1.png",
     style: "harrypotter",
     price: 15
   },
