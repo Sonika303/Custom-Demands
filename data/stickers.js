@@ -161,5 +161,14 @@ const STICKERS = [
     image: "images/anime/gojo1.png",
     style: "anime",
     price: 10
+  },
+
+  {
+    id:    19,
+    name:  "Gojo 2",
+    desc:  "Gojo Satoru Running Sticker with his blindfold on and his arms outstretched",
+    image: "images/anime/gojo2.png",
+    style: "anime",
+    price: 10
   }
 ];
