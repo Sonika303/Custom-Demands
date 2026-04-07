@@ -1,16 +1,3 @@
-/* ============================================================
-   CUSTOM DEMANDS — data/stickers.js
-   ============================================================
-   TO ADD A STICKER: Copy a block below, paste at the end, fill in.
-   FIELDS:
-     id    — unique number
-     name  — display name
-     desc  — short description
-     image — path to image (e.g. "images/anime/name.png")
-     style — anime | hellokitty | harrypotter | kawaii | chibi | sticker
-     price — number in ₹ (or null to hide)
-   ============================================================ */
-
 const STICKERS = [
 
   /* ── ANIME ── */
@@ -21,7 +8,8 @@ const STICKERS = [
   { id: 19, name: "Gojo 2",    desc: "Gojo Satoru running with blindfold and arms out", image: "images/anime/gojo2.png",    style: "anime",        price: 10 },
   { id: 20, name: "Naruto 1",  desc: "Naruto Uzumaki in a low-crouching position",      image: "images/anime/naruto1.png",  style: "anime",        price: 10 },
   { id: 21, name: "Kurama 1",  desc: "Kurama the Nine-Tailed Fox Beast",                image: "images/anime/kurama1.png",  style: "anime",        price: 10 },
-
+  { id: 22, name: "L Lawliet 1",  desc: "Chibi L Lawliet with his distinctive hairstyle",   image: "images/anime/LLawliet1.png",  style: "anime",        price: 10 },
+  
   /* ── HELLO KITTY ── */
   { id: 2,  name: "Hello Kitty 1", desc: "Hello Kitty standing",                                    image: "images/HelloKitty/HelloKitty1.png", style: "hellokitty", price: 10 },
   { id: 3,  name: "Hello Kitty 2", desc: "Adorable Hello Kitty peeking from behind a ribbon",       image: "images/HelloKitty/HelloKitty2.png", style: "hellokitty", price: 10 },
