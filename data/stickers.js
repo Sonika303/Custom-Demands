@@ -175,7 +175,7 @@ const STICKERS = [
   {
     id:    20,
     name:  "Naruto 1",
-    desc:  "Naruto Uzumaki in a low-crouching position, hugging his knees tightly to his chest and his head is tucked down slightly as he looks forward ",
+    desc:  "Naruto Uzumaki in a low-crouching position",
     image: "images/anime/naruto1.png",
     style: "anime",
     price: 10
