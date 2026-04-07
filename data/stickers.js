@@ -119,6 +119,15 @@ const STICKERS = [
 
   {
     id:    14,
+    name:  "Sorting Hat 1",
+    desc:  "Chibi Sorting Hat with its distinctive shape and wise expression on its face",
+    image: "images/harrypotter/SortingHat1.png",
+    style: "harrypotter",
+    price: 15
+  },
+
+  {
+    id:    15,
     name:  "Luffy 1",
     desc:  "Luffy fist in the air friendship symbol",
     image: "images/anime/luffy1.png",
@@ -127,7 +136,7 @@ const STICKERS = [
   },
 
   {
-    id:    15,
+    id:    16,
     name:  "Hakari 1",
     desc:  "Hakari doing his domain expansion pose",
     image: "images/anime/hakari1.png",
@@ -136,7 +145,7 @@ const STICKERS = [
   },
 
   {
-    id:    16,
+    id:    17,
     name:  "Gojo 1",
     desc:  "Gojo Satoru Head with his sunglasses",
     image: "images/anime/gojo1.png",
