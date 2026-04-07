@@ -179,5 +179,14 @@ const STICKERS = [
     image: "images/anime/naruto1.png",
     style: "anime",
     price: 10
+  },
+
+  {
+    id:    21,
+    name:  "Kurama 1",
+    desc:  "Kurama the Nine-Tailed Fox Beast",
+    image: "images/anime/kurama1.png",
+    style: "anime",
+    price: 10
   }
 ];
