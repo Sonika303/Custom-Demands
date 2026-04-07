@@ -1,10 +1,20 @@
 /* ============================================================
    CUSTOM DEMANDS — data/testimonials.js
    ============================================================
-   TO ADD:    Copy the template block, paste at end, fill in
-   TO REMOVE: Delete the entire { } block
+   TO ADD:    Copy the template, paste at the bottom, fill in.
+   TO REMOVE: Delete the entire { } block for that review.
    MEDIA:     Put files in /testimonials/ folder
-              Set media:"testimonials/filename.jpg" or .mp4
+              Set media: "testimonials/filename.jpg"  (or .png / .mp4)
+   FIELDS:
+     id        — unique number
+     name      — reviewer's name
+     handle    — "@handle" or "" to hide
+     rating    — 1–5 stars
+     text      — review text
+     media     — image path (or null)
+     mediaType — "image" | "video" | null
+     style     — anime | hellokitty | harrypotter | kawaii | chibi | sticker
+     date      — display date e.g. "January 2026"
    ============================================================ */
 
 const TESTIMONIALS = [
@@ -14,7 +24,7 @@ const TESTIMONIALS = [
     name:      "Chetan",
     handle:    "",
     rating:    5,
-    text:      "Absolutely obsessed with my pain stickers!! The quality is amazing and they understood exactly what I wanted. Will order again for sure!",
+    text:      "Absolutely obsessed with my Pain sticker!! The quality is amazing and they understood exactly what I wanted. Will definitely order again!",
     media:     "testimonials/pain1.png",
     mediaType: "image",
     style:     "anime",
@@ -30,10 +40,10 @@ const TESTIMONIALS = [
     media:     null,
     mediaType: null,
     style:     "chibi",
-    date:      "Jan 2025"
-  }
+    date:      "January 2026"
+  },
 
-  /*  ── ADD NEW REVIEW TEMPLATE ──
+  /*  ── ADD NEW REVIEW BELOW ──
   ,{
     id:        3,
     name:      "Customer Name",
@@ -43,7 +53,8 @@ const TESTIMONIALS = [
     media:     "testimonials/photo.jpg",
     mediaType: "image",
     style:     "sticker",
-    date:      "Apr 2025"
+    date:      "April 2026"
   }
   */
+
 ];
