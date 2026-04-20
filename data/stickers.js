@@ -13,7 +13,8 @@ const STICKERS = [
   { id: 24, name: "Itachi 2",   desc: "itachi sitting pose and itachi background behind him", image: "images/anime/itachi2.png",   style: "anime",        price: 10 },  
   { id: 210, name: "Goku 1",   desc: "Goku Standing with pose and angry face expressions", image: "images/anime/goku1.png",   style: "anime",        price: 10 },
   { id: 26, name: "Zoro 1",   desc: "Zoro standing with his sword", image: "images/anime/zoro1.png",   style: "anime",        price: 10 },
-
+  { id: 27, name: "Zoro 2",   desc: "Zoro posing and standing with his swords", image: "images/anime/zoro2.png",   style: "anime",        price: 10 },   
+  
   /* ── HELLO KITTY ── */
   { id: 2,  name: "Hello Kitty 1", desc: "Hello Kitty standing",                                    image: "images/HelloKitty/HelloKitty1.png", style: "hellokitty", price: 10 },
   { id: 3,  name: "Hello Kitty 2", desc: "Adorable Hello Kitty peeking from behind a ribbon",       image: "images/HelloKitty/HelloKitty2.png", style: "hellokitty", price: 10 },
