@@ -2,7 +2,7 @@ const STICKERS = [
 
   /* ── ANIME ── */
   { id: 1,  name: "Pain 1",       desc: "Pain Staring",                                              image: "images/anime/pain1.png",            style: "anime",       price: 10, inStock: true  },
-  { id: 16, name: "Luffy 1",      desc: "Luffy fist in the air friendship symbol",                   image: "images/anime/luffy1.png",           style: "anime",       price: 10, inStock: true  },
+  { id: 16, name: "Luffy 1",      desc: "Luffy fist in the air friendship symbol",                   image: "images/anime/luffy/luffy1.png",           style: "anime",       price: 10, inStock: true  },
   { id: 17, name: "Hakari 1",     desc: "Hakari doing his domain expansion pose",                    image: "images/anime/hakari1.png",          style: "anime",       price: 10, inStock: true  },
   { id: 18, name: "Gojo 1",       desc: "Gojo Satoru head with his sunglasses",                      image: "images/anime/gojo/gojo1.png",       style: "anime",       price: 10, inStock: true  },
   { id: 19, name: "Gojo 2",       desc: "Gojo Satoru running with blindfold and arms out",           image: "images/anime/gojo/gojo2.png",       style: "anime",       price: 10, inStock: true  },
@@ -18,7 +18,8 @@ const STICKERS = [
   { id: 29, name: "Sasuke 1",     desc: "Sasuke posing and holding his sword",                       image: "images/anime/sasuke/sasuke1.png",   style: "anime",       price: 10, inStock: true  },
   { id: 30, name: "Sasuke 2",     desc: "Kid Sasuke with headband and clan symbol doing jutsu pose", image: "images/anime/sasuke/sasuke2.png",   style: "anime",       price: 10, inStock: true  },
   { id: 32, name: "Wado Ichimonji, Sandai Kitetsu, and Enma 1",       desc: "Wado Ichimonji, Sandai Kitetsu, and Enma standing together",          image: "images/anime/swords/Wado Ichimonji, Sandai Kitetsu, and Enma 1.png",            style: "anime",       price: 10, inStock: true  },
-
+  { id: 33, name: "luffy 2",     desc: "Kid Luffy peeking out with a straw hat",          image: "images/anime/luffy/luffy2.png",     style: "anime",       price: 10, inStock: true  }, 
+ 
   /* ── HELLO KITTY ── */
   { id: 2,  name: "Hello Kitty 1", desc: "Hello Kitty standing",                                     image: "images/HelloKitty/HelloKitty1.png", style: "hellokitty",  price: 10, inStock: true  },
   { id: 3,  name: "Hello Kitty 2", desc: "Adorable Hello Kitty peeking from behind a ribbon",        image: "images/HelloKitty/HelloKitty2.png", style: "hellokitty",  price: 10, inStock: true  },
