@@ -50,5 +50,5 @@ const STICKERS = [
   { id: 15, name: "Harry Potter Logo 1",desc: "Harry Potter iconic lightning bolt logo",                       image: "images/harrypotter/HarryPotterLogo1.png", style: "harrypotter", price: 10, inStock: true  },
 
   /* ── MARVEL ── */
-  { id: 31, name: "Spider-Man 1",  desc: "Spider-Man Hanging in the Air with the web",            image: "images/marvel/spiderman1.png",  style: "marvel|chibi", price: 10, inStock: true  },
+  { id: 31, name: "Spider-Man 1",  desc: "Spider-Man Hanging in the Air with the web",            image: "images/marvel/spiderman1.png",  style: "marvel", price: 10, inStock: true  },
 ];
