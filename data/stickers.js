@@ -1,16 +1,3 @@
-/* ============================================================
-   CUSTOM DEMANDS — data/stickers.js
-   ============================================================
-   FIELDS:
-     id      — unique number
-     name    — display name
-     desc    — short description
-     image   — path e.g. "images/anime/name.png"
-     style   — anime | hellokitty | harrypotter | kawaii | chibi | marvel | sticker
-     price   — number in ₹ (or null to hide)
-     inStock — true | false
-   ============================================================ */
-
 const STICKERS = [
 
   /* ── ANIME ── */
@@ -22,14 +9,15 @@ const STICKERS = [
   { id: 20, name: "Naruto 1",     desc: "Naruto Uzumaki in a low-crouching position",                image: "images/anime/naruto1.png",          style: "anime",       price: 10, inStock: true  },
   { id: 21, name: "Kurama 1",     desc: "Kurama the Nine-Tailed Fox Beast",                          image: "images/anime/kurama1.png",          style: "anime",       price: 10, inStock: true  },
   { id: 22, name: "L Lawliet 1",  desc: "Chibi L Lawliet with his distinctive hairstyle",            image: "images/anime/LLawliet1.png",        style: "anime",       price: 10, inStock: true  },
-  { id: 23, name: "Itachi 1",     desc: "Funny Itachi Uchiha pose",                                  image: "images/anime/itachi1.png",          style: "anime",       price: 10, inStock: true  },
-  { id: 24, name: "Itachi 2",     desc: "Itachi sitting pose with background",                       image: "images/anime/itachi2.png",          style: "anime",       price: 10, inStock: true  },
+  { id: 23, name: "Itachi 1",     desc: "Funny Itachi Uchiha pose",                                  image: "images/anime/itachi/itachi1.png",          style: "anime",       price: 10, inStock: true  },
+  { id: 24, name: "Itachi 2",     desc: "Itachi sitting pose with background",                       image: "images/anime/itachi/itachi2.png",          style: "anime",       price: 10, inStock: true  },
   { id: 25, name: "Goku 1",       desc: "Goku standing with angry face expression",                  image: "images/anime/goku1.png",            style: "anime",       price: 10, inStock: true  },
   { id: 26, name: "Zoro 1",       desc: "Zoro standing with his sword",                              image: "images/anime/zoro/zoro1.png",       style: "anime",       price: 10, inStock: true  },
   { id: 27, name: "Zoro 2",       desc: "Zoro posing with his three swords",                         image: "images/anime/zoro/zoro2.png",       style: "anime",       price: 10, inStock: true  },
   { id: 28, name: "Gojo 3",       desc: "Chibi Gojo with a cute smile",                              image: "images/anime/gojo/gojo3.png",       style: "anime",       price: 10, inStock: true  },
   { id: 29, name: "Sasuke 1",     desc: "Sasuke posing and holding his sword",                       image: "images/anime/sasuke/sasuke1.png",   style: "anime",       price: 10, inStock: true  },
   { id: 30, name: "Sasuke 2",     desc: "Kid Sasuke with headband and clan symbol doing jutsu pose", image: "images/anime/sasuke/sasuke2.png",   style: "anime",       price: 10, inStock: true  },
+  { id: 32, name: "Wado Ichimonji, Sandai Kitetsu, and Enma 1",       desc: "Wado Ichimonji, Sandai Kitetsu, and Enma standing together",          image: "images/anime/swords/Wado Ichimonji, Sandai Kitetsu, and Enma 1.png",            style: "anime",       price: 10, inStock: true  },
 
   /* ── HELLO KITTY ── */
   { id: 2,  name: "Hello Kitty 1", desc: "Hello Kitty standing",                                     image: "images/HelloKitty/HelloKitty1.png", style: "hellokitty",  price: 10, inStock: true  },
