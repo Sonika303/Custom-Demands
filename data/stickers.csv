@@ -1,0 +1,37 @@
+id,name,desc,image,style,price,inStock
+1,Pain 1,Pain Staring,images/anime/pain1.png,anime,10,true
+16,Luffy 1,Luffy fist in the air friendship symbol,images/anime/luffy/luffy1.png,anime,10,true
+33,Luffy 2,Kid Luffy peeking out with a straw hat,images/anime/luffy/luffy2.png,anime,10,true
+17,Hakari 1,Hakari doing his domain expansion pose,images/anime/hakari1.png,anime,10,true
+18,Gojo 1,Gojo Satoru head with his sunglasses,images/anime/gojo/gojo1.png,anime,10,true
+19,Gojo 2,Gojo Satoru running with blindfold and arms out,images/anime/gojo/gojo2.png,anime,10,true
+28,Gojo 3,Chibi Gojo with a cute smile,images/anime/gojo/gojo3.png,anime+chibi,10,true
+20,Naruto 1,Naruto Uzumaki in a low-crouching position,images/anime/naruto1.png,anime,10,true
+21,Kurama 1,Kurama the Nine-Tailed Fox Beast,images/anime/kurama1.png,anime,10,true
+22,L Lawliet 1,Chibi L Lawliet with his distinctive hairstyle,images/anime/LLawliet1.png,anime+chibi,10,true
+23,Itachi 1,Funny Itachi Uchiha pose,images/anime/itachi/itachi1.png,anime,10,true
+24,Itachi 2,Itachi sitting pose with background,images/anime/itachi/itachi2.png,anime,10,true
+25,Goku 1,Goku standing with angry face expression,images/anime/goku/goku1.png,anime,10,true
+34,Goku 2,Chibi Goku with shadow and super saiyan aura,images/anime/goku/goku2.png,anime+chibi,10,true
+26,Zoro 1,Zoro standing with his sword,images/anime/zoro/zoro1.png,anime,10,true
+27,Zoro 2,Zoro posing with his three swords,images/anime/zoro/zoro2.png,anime,10,true
+32,Zoro Swords 1,"Wado Ichimonji, Sandai Kitetsu, and Enma standing together","images/anime/swords/Wado Ichimonji, Sandai Kitetsu, and Enma 1.png",anime,10,true
+29,Sasuke 1,Sasuke posing and holding his sword,images/anime/sasuke/sasuke1.png,anime,10,true
+30,Sasuke 2,Kid Sasuke with headband and clan symbol doing jutsu pose,images/anime/sasuke/sasuke2.png,anime,10,true
+35,Jiraiya 1,White-haired ninja with forehead protector and spiral seal,images/anime/jiraiya1.png,anime,10,true
+2,Hello Kitty 1,Hello Kitty standing,images/HelloKitty/HelloKitty1.png,hellokitty,10,true
+3,Hello Kitty 2,Adorable Hello Kitty peeking from behind a ribbon,images/HelloKitty/HelloKitty2.png,hellokitty,10,true
+4,Hello Kitty 3,Hello Kitty head with a cute red bow,images/HelloKitty/HelloKitty3.png,hellokitty,10,true
+5,Hello Kitty 4,Hello Kitty sitting and holding a strawberry,images/HelloKitty/HelloKitty4.png,hellokitty,10,true
+6,Harry Potter 1,Chibi Harry Potter holding his wand with iconic glasses,images/harrypotter/HarryPotter1.png,harrypotter+chibi,10,true
+7,Hermione Granger 1,Chibi Hermione Granger with her characteristic bushy hair,images/harrypotter/HermioneGranger1.png,harrypotter+chibi,10,true
+8,Ron Weasley 1,Chibi Ron Weasley with his red hair and freckles,images/harrypotter/RonWeasley1.png,harrypotter+chibi,10,true
+9,Rubeus Hagrid 1,Chibi Hagrid with his characteristic beard and kind eyes,images/harrypotter/RubeusHagrid1.png,harrypotter+chibi,10,true
+10,Severus Snape 1,Chibi Snape with his characteristic scowl and dark hair,images/harrypotter/SeverusSnape1.png,harrypotter+chibi,10,true
+11,Albus Dumbledore 1,Chibi Dumbledore with long beard and half-moon glasses,images/harrypotter/AlbusDumbledore1.png,harrypotter+chibi,10,true
+12,Draco Malfoy 1,Chibi Draco with slicked-back blonde hair and sly expression,images/harrypotter/DracoMalfoy1.png,harrypotter+chibi,10,true
+13,Luna Lovegood 1,Chibi Luna with her distinctive hair and dreamy eyes,images/harrypotter/LunaLovegood1.png,harrypotter+chibi,10,true
+14,Sorting Hat 1,Chibi Sorting Hat with its distinctive shape and wise face,images/harrypotter/SortingHat1.png,harrypotter,10,true
+15,Harry Potter Logo 1,Harry Potter iconic lightning bolt logo,images/harrypotter/HarryPotterLogo1.png,harrypotter,10,true
+31,Spider-Man 1,Spider-Man hanging in the air with web,images/marvel/spiderman1.png,marvel,10,true
+36,Iron Man 1,Iron Man in his iconic red and gold suit flying,images/marvel/ironman1.png,marvel,10,true
