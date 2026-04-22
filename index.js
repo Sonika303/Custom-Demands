@@ -20,6 +20,7 @@ const STYLE_CFG = {
   anime:       { label: '⚡ Anime',        color: '#f97316', bg: '#f9731618' },
   hellokitty:  { label: '🎀 Hello Kitty',  color: '#e8003a', bg: '#e8003a12' },
   harrypotter: { label: '🧙 Harry Potter', color: '#740001', bg: '#74000112' },
+  marvel:      { label: '🦸 Marvel',       color: '#e62429', bg: '#e6242914' },
   anything:    { label: '✦ Custom',        color: '#059669', bg: '#05966918' },
   sticker:     { label: '✨ Sticker',      color: '#7c4dff', bg: '#7c4dff18' }
 };
@@ -27,8 +28,10 @@ const STYLE_CFG = {
 /* ══════════════════════════════
    STATE
    ══════════════════════════════ */
+const ITEMS_PER_PAGE = 10;
 let activeFilter = 'all';
 let searchQuery  = '';
+let currentPage  = 1;
 
 /* ══════════════════════════════
    BUILD STICKER CARD
@@ -40,6 +43,10 @@ function buildCard(item, index) {
 
   const priceHTML = item.price != null
     ? `<div class="card-price">₹${item.price}</div>` : '';
+
+  const stockHTML = item.inStock === false
+    ? `<div class="card-stock out">Out of Stock</div>`
+    : `<div class="card-stock in">In Stock</div>`;
 
   const imgHTML = item.image
     ? `<img src="${item.image}" alt="${item.name}" class="card-img" loading="lazy"
@@ -53,7 +60,10 @@ function buildCard(item, index) {
              data-style="${item.style}"
              itemscope itemtype="https://schema.org/Product">
       ${priceHTML}
-      <div class="card-img-wrap">${imgHTML}</div>
+      <div class="card-img-wrap">
+        ${stockHTML}
+        ${imgHTML}
+      </div>
       <div class="card-body">
         <span class="card-cat"
           style="color:${cfg.color};background:${cfg.bg};border:1px solid ${cfg.color}28">
@@ -73,12 +83,11 @@ function buildCard(item, index) {
 }
 
 /* ══════════════════════════════
-   RENDER STICKERS
+   RENDER ALL CARDS
    ══════════════════════════════ */
 function renderStickers() {
   const grid = document.getElementById('stickerGrid');
   if (!grid) return;
-
   if (typeof STICKERS === 'undefined' || !STICKERS.length) {
     grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:40px">No stickers found — check data/stickers.js is loaded.</p>';
     return;
@@ -87,34 +96,111 @@ function renderStickers() {
 }
 
 /* ══════════════════════════════
-   FILTER + SEARCH
+   FILTER + SEARCH + PAGINATION
    ══════════════════════════════ */
-function applyFilters() {
-  const grid      = document.getElementById('stickerGrid');
-  const emptyEl   = document.getElementById('emptyState');
-  const countEl   = document.getElementById('resultsCount');
+function applyFilters(resetPageFlag = true) {
+  const grid    = document.getElementById('stickerGrid');
+  const emptyEl = document.getElementById('emptyState');
+  const countEl = document.getElementById('resultsCount');
   if (!grid) return;
 
-  let visible = 0;
-  grid.querySelectorAll('.card').forEach(card => {
+  if (resetPageFlag) currentPage = 1;
+
+  // Collect all cards and build visible subset
+  const all     = Array.from(grid.querySelectorAll('.card'));
+  const visible = all.filter(card => {
     const nameMatch  = card.dataset.name.includes(searchQuery);
     const descMatch  = card.dataset.desc.includes(searchQuery);
     const styleMatch = activeFilter === 'all' || card.dataset.style === activeFilter;
-    const show       = (nameMatch || descMatch) && styleMatch;
-    card.style.display = show ? '' : 'none';
-    if (show) visible++;
+    return (nameMatch || descMatch) && styleMatch;
   });
 
+  const totalPages = Math.max(1, Math.ceil(visible.length / ITEMS_PER_PAGE));
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const end   = start + ITEMS_PER_PAGE;
+
+  // Show only the current page slice
+  all.forEach(c => c.style.display = 'none');
+  visible.forEach((c, i) => { c.style.display = (i >= start && i < end) ? '' : 'none'; });
+
+  // Count label
   if (countEl) {
-    countEl.textContent = (searchQuery || activeFilter !== 'all')
-      ? `${visible} sticker${visible !== 1 ? 's' : ''} found` : '';
+    if (searchQuery || activeFilter !== 'all') {
+      countEl.textContent = `${visible.length} sticker${visible.length !== 1 ? 's' : ''} found`;
+    } else {
+      countEl.textContent = visible.length > ITEMS_PER_PAGE
+        ? `Showing ${start + 1}–${Math.min(end, visible.length)} of ${visible.length} stickers`
+        : '';
+    }
   }
-  if (emptyEl) emptyEl.style.display = visible === 0 ? '' : 'none';
+
+  // Empty state
+  if (emptyEl) emptyEl.style.display = visible.length === 0 ? '' : 'none';
+
+  // Pagination controls
+  renderPagination(totalPages);
 }
 
+/* ══════════════════════════════
+   PAGINATION UI
+   ══════════════════════════════ */
+function renderPagination(totalPages) {
+  let el = document.getElementById('stickerPagination');
+
+  if (totalPages <= 1) {
+    if (el) el.style.display = 'none';
+    return;
+  }
+
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'stickerPagination';
+    el.className = 'pagination';
+    const grid = document.getElementById('stickerGrid');
+    grid.parentNode.insertBefore(el, grid.nextSibling);
+  }
+  el.style.display = '';
+
+  // Build page number buttons (show max 5 around current)
+  let pageButtons = '';
+  const range = 2;
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPage - range && i <= currentPage + range)) {
+      pageButtons += `<button class="pag-num${i === currentPage ? ' active' : ''}" onclick="changePage(${i})">${i}</button>`;
+    } else if (i === currentPage - range - 1 || i === currentPage + range + 1) {
+      pageButtons += `<span class="pag-dots">…</span>`;
+    }
+  }
+
+  el.innerHTML = `
+    <button class="pag-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Prev
+    </button>
+    <div class="pag-pages">${pageButtons}</div>
+    <button class="pag-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+      Next
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>`;
+}
+
+function changePage(n) {
+  currentPage = n;
+  applyFilters(false);
+  const sec = document.getElementById('stickers');
+  if (sec) window.scrollTo({ top: sec.offsetTop - 80, behavior: 'smooth' });
+}
+window.changePage = changePage;
+
+/* ══════════════════════════════
+   RESET FILTERS
+   ══════════════════════════════ */
 function resetFilters() {
   activeFilter = 'all';
   searchQuery  = '';
+  currentPage  = 1;
   const input = document.getElementById('searchInput');
   const clear = document.getElementById('searchClear');
   if (input) input.value = '';
@@ -122,15 +208,17 @@ function resetFilters() {
   document.querySelectorAll('.fpill').forEach(p =>
     p.classList.toggle('active', p.dataset.filter === 'all')
   );
-  applyFilters();
+  applyFilters(false);
 }
 window.resetFilters = resetFilters;
 
+/* ══════════════════════════════
+   SEARCH INPUT
+   ══════════════════════════════ */
 function initSearch() {
   const input    = document.getElementById('searchInput');
   const clearBtn = document.getElementById('searchClear');
   if (!input) return;
-
   input.addEventListener('input', () => {
     searchQuery = input.value.trim().toLowerCase();
     clearBtn.style.display = searchQuery ? '' : 'none';
@@ -145,6 +233,9 @@ function initSearch() {
   });
 }
 
+/* ══════════════════════════════
+   FILTER PILLS
+   ══════════════════════════════ */
 function initFilters() {
   document.querySelectorAll('.fpill').forEach(pill => {
     pill.addEventListener('click', () => {
@@ -157,31 +248,25 @@ function initFilters() {
 }
 
 /* ══════════════════════════════
-   BUILD TESTIMONIAL CARD
+   TESTIMONIALS
    ══════════════════════════════ */
 function buildTestimonialCard(t, i) {
-  const cfg   = STYLE_CFG[t.style] || STYLE_CFG.sticker;
-  const delay = ((i % 3) * 0.08).toFixed(2) + 's';
-  const stars = '★'.repeat(Math.min(t.rating || 5, 5)) + '☆'.repeat(5 - Math.min(t.rating || 5, 5));
+  const cfg      = STYLE_CFG[t.style] || STYLE_CFG.sticker;
+  const delay    = ((i % 3) * 0.08).toFixed(2) + 's';
+  const filled   = Math.min(t.rating || 5, 5);
+  const stars    = '★'.repeat(filled) + '☆'.repeat(5 - filled);
   const initials = (t.name || 'U').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
   const mediaHTML = (t.media && t.mediaType === 'image')
-    ? `<div class="tcard-media">
-         <img src="${t.media}" alt="${t.name}'s sticker" loading="lazy"
-              onerror="this.parentElement.style.display='none'"/>
-       </div>` : '';
+    ? `<div class="tcard-media"><img src="${t.media}" alt="${t.name}'s sticker" loading="lazy" onerror="this.parentElement.style.display='none'"/></div>` : '';
 
-  const handleHTML = t.handle
-    ? `<span class="tcard-handle">${t.handle}</span>` : '';
+  const handleHTML = t.handle ? `<span class="tcard-handle">${t.handle}</span>` : '';
 
   return `
-    <div class="tcard" style="animation-delay:${delay}"
-         itemscope itemtype="https://schema.org/Review">
+    <div class="tcard" style="animation-delay:${delay}" itemscope itemtype="https://schema.org/Review">
       <div class="tcard-top">
-        <svg class="tcard-quote" viewBox="0 0 40 30" fill="currentColor">
-          <path d="M0 30V18C0 7.163 5.373 1.373 16.12 0l2.24 3.36C13.147 4.8 10.24 7.787 9.6 12.48H16V30H0zm22 0V18C22 7.163 27.373 1.373 38.12 0l2.24 3.36C35.147 4.8 32.24 7.787 31.6 12.48H38V30H22z"/>
-        </svg>
-        <div class="tcard-stars" aria-label="${t.rating || 5} out of 5 stars">${stars}</div>
+        <svg class="tcard-quote" viewBox="0 0 40 30" fill="currentColor"><path d="M0 30V18C0 7.163 5.373 1.373 16.12 0l2.24 3.36C13.147 4.8 10.24 7.787 9.6 12.48H16V30H0zm22 0V18C22 7.163 27.373 1.373 38.12 0l2.24 3.36C35.147 4.8 32.24 7.787 31.6 12.48H38V30H22z"/></svg>
+        <div class="tcard-stars" aria-label="${filled} out of 5 stars">${stars}</div>
       </div>
       <p class="tcard-text" itemprop="reviewBody">${t.text}</p>
       ${mediaHTML}
@@ -192,22 +277,15 @@ function buildTestimonialCard(t, i) {
           ${handleHTML}
           <span class="tcard-date">${t.date || ''}</span>
         </div>
-        <span class="tcard-badge"
-          style="color:${cfg.color};background:${cfg.bg};border:1px solid ${cfg.color}28">
-          ${cfg.label}
-        </span>
+        <span class="tcard-badge" style="color:${cfg.color};background:${cfg.bg};border:1px solid ${cfg.color}28">${cfg.label}</span>
       </div>
     </div>`;
 }
 
-/* ══════════════════════════════
-   RENDER TESTIMONIALS
-   ══════════════════════════════ */
 function renderTestimonials() {
   const grid  = document.getElementById('testimonialGrid');
   const empty = document.getElementById('testimonialEmpty');
   if (!grid) return;
-
   if (typeof TESTIMONIALS === 'undefined' || !TESTIMONIALS.length) {
     if (empty) empty.style.display = '';
     return;
@@ -225,40 +303,33 @@ function initNavAuth() {
   const navUsername = document.getElementById('navUsernameText');
   const navLogout   = document.getElementById('navLogout');
   const mobSection  = document.getElementById('mobUserSection');
-
   if (!navUser || !navSignIn) return;
 
-  // Small delay to let Firebase initialize
   try {
-    firebase.auth().onAuthStateChanged(async (user) => {
+    firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        // Fetch username from DB
         let username = user.displayName || 'user';
         try {
           const snap = await firebase.database().ref('users/' + user.uid + '/username').once('value');
           if (snap.exists() && snap.val()) username = snap.val();
-        } catch(e) { /* use displayName */ }
+        } catch(e) {}
 
         const initials = username.slice(0, 2).toUpperCase();
-        const photoURL  = user.photoURL;
+        const photo    = user.photoURL;
 
-        // Desktop nav
         if (navAvatar) {
-          navAvatar.innerHTML = photoURL
-            ? `<img src="${photoURL}" alt="${username}" referrerpolicy="no-referrer"/>`
+          navAvatar.innerHTML = photo
+            ? `<img src="${photo}" alt="${username}" referrerpolicy="no-referrer"/>`
             : initials;
         }
         if (navUsername) navUsername.textContent = '@' + username;
         navUser.style.display   = 'flex';
         navSignIn.style.display = 'none';
 
-        // Mobile menu user section
         if (mobSection) {
           mobSection.innerHTML = `
             <div class="mob-user-row">
-              <div class="mob-avatar">
-                ${photoURL ? `<img src="${photoURL}" alt="${username}" referrerpolicy="no-referrer"/>` : initials}
-              </div>
+              <div class="mob-avatar">${photo ? `<img src="${photo}" alt="${username}" referrerpolicy="no-referrer"/>` : initials}</div>
               <div class="mob-user-info">
                 <div class="mob-user-name">@${username}</div>
                 <div class="mob-user-sub">${user.email || ''}</div>
@@ -270,40 +341,31 @@ function initNavAuth() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               </button>
             </div>`;
-
           document.getElementById('mobLogoutBtn')?.addEventListener('click', doNavSignOut);
         }
 
-        // Desktop logout
         navLogout?.addEventListener('click', doNavSignOut);
 
       } else {
         navUser.style.display   = 'none';
         navSignIn.style.display = '';
-
         if (mobSection) {
-          mobSection.innerHTML = `
-            <div class="mob-signin-row">
-              <a href="auth.html" onclick="closeMob()">Sign In to Your Account</a>
-            </div>`;
+          mobSection.innerHTML = `<div class="mob-signin-row"><a href="auth.html" onclick="closeMob()">Sign In to Your Account</a></div>`;
         }
       }
     });
   } catch(e) {
-    // Firebase not available — just show sign in
     navSignIn.style.display = '';
   }
 }
 
 async function doNavSignOut() {
-  try {
-    await firebase.auth().signOut();
-    location.reload();
-  } catch(e) { location.reload(); }
+  try { await firebase.auth().signOut(); } catch(e) {}
+  location.reload();
 }
 
 /* ══════════════════════════════
-   NAV SCROLL + MOBILE
+   NAV SCROLL + HAMBURGER
    ══════════════════════════════ */
 function initNav() {
   const nav     = document.getElementById('mainNav');
@@ -328,7 +390,6 @@ function initNav() {
     });
   }
 
-  // Smooth anchor scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const t = document.querySelector(a.getAttribute('href'));
@@ -354,6 +415,7 @@ window.closeMob = closeMob;
    ══════════════════════════════ */
 function boot() {
   renderStickers();
+  applyFilters(false);
   renderTestimonials();
   initSearch();
   initFilters();
