@@ -29,17 +29,28 @@ const STYLE_CFG = {
    STATE
    ══════════════════════════════ */
 const ITEMS_PER_PAGE = 10;
-let activeFilter = 'all';
-let searchQuery  = '';
-let currentPage  = 1;
+let activeFilter  = 'all';
+let searchQuery   = '';
+let currentPage   = 1;
+// Cache: array of visible card elements after last filter run
+let _visibleCache = [];
+
+/* ── Normalize style to always be an array ── */
+function getStyles(item) {
+  return Array.isArray(item.style) ? item.style : [item.style || 'sticker'];
+}
 
 /* ══════════════════════════════
-   BUILD STICKER CARD
+   BUILD STICKER CARD HTML
+   (runs once at page load — not on every filter)
    ══════════════════════════════ */
 function buildCard(item, index) {
-  const cfg   = STYLE_CFG[item.style] || STYLE_CFG.sticker;
-  const delay = ((index % 5) * 0.05).toFixed(2) + 's';
-  const num   = String(item.id).padStart(2, '0');
+  const styles   = getStyles(item);
+  const primary  = styles[0];
+  const cfg      = STYLE_CFG[primary] || STYLE_CFG.sticker;
+  const delay    = ((index % 5) * 0.05).toFixed(2) + 's';
+  const num      = String(item.id).padStart(2, '0');
+  const stylesStr = styles.join(' '); // for data attribute
 
   const priceHTML = item.price != null
     ? `<div class="card-price">₹${item.price}</div>` : '';
@@ -50,14 +61,20 @@ function buildCard(item, index) {
 
   const imgHTML = item.image
     ? `<img src="${item.image}" alt="${item.name}" class="card-img" loading="lazy"
-         onerror="this.outerHTML='<div class=\\'card-ph\\'><span class=\\'card-num\\'>${num}</span><p>Image Missing</p></div>'">`
+         onerror="this.outerHTML='<div class=\\'card-ph\\'><span class=\\'card-num\\'>${num}</span><p>Missing</p></div>'">`
     : `<div class="card-ph"><span class="card-num">${num}</span><p>Add Image</p></div>`;
+
+  // Show ALL style badges for multi-category stickers
+  const badgesHTML = styles.map(s => {
+    const c = STYLE_CFG[s] || STYLE_CFG.sticker;
+    return `<span class="card-cat" style="color:${c.color};background:${c.bg};border:1px solid ${c.color}28">${c.label}</span>`;
+  }).join('');
 
   return `
     <article class="card" style="animation-delay:${delay}" role="listitem"
              data-name="${item.name.toLowerCase()}"
              data-desc="${item.desc.toLowerCase()}"
-             data-style="${item.style}"
+             data-styles="${stylesStr}"
              itemscope itemtype="https://schema.org/Product">
       ${priceHTML}
       <div class="card-img-wrap">
@@ -65,16 +82,12 @@ function buildCard(item, index) {
         ${imgHTML}
       </div>
       <div class="card-body">
-        <span class="card-cat"
-          style="color:${cfg.color};background:${cfg.bg};border:1px solid ${cfg.color}28">
-          ${cfg.label}
-        </span>
+        <div class="card-cats">${badgesHTML}</div>
         <h3 class="card-name" itemprop="name">${item.name}</h3>
         <p  class="card-desc" itemprop="description">${item.desc}</p>
         <div class="card-btns">
           <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener"
-             class="cbtn-order"
-             style="background:${cfg.color};border-color:${cfg.color}">Order Now</a>
+             class="cbtn-order" style="background:${cfg.color};border-color:${cfg.color}">Order Now</a>
           <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener"
              class="cbtn-sec">Customise</a>
         </div>
@@ -83,20 +96,22 @@ function buildCard(item, index) {
 }
 
 /* ══════════════════════════════
-   RENDER ALL CARDS
+   RENDER ALL CARDS (once)
    ══════════════════════════════ */
 function renderStickers() {
   const grid = document.getElementById('stickerGrid');
   if (!grid) return;
   if (typeof STICKERS === 'undefined' || !STICKERS.length) {
-    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:40px">No stickers found — check data/stickers.js is loaded.</p>';
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:40px">No stickers — check data/stickers.js is loaded.</p>';
     return;
   }
+  // Build all cards as a single HTML string — one DOM write
   grid.innerHTML = STICKERS.map((item, i) => buildCard(item, i)).join('');
 }
 
 /* ══════════════════════════════
    FILTER + SEARCH + PAGINATION
+   Using display toggle (no DOM rebuild = fast)
    ══════════════════════════════ */
 function applyFilters(resetPageFlag = true) {
   const grid    = document.getElementById('stickerGrid');
@@ -106,45 +121,50 @@ function applyFilters(resetPageFlag = true) {
 
   if (resetPageFlag) currentPage = 1;
 
-  // Collect all cards and build visible subset
-  const all     = Array.from(grid.querySelectorAll('.card'));
-  const visible = all.filter(card => {
-    const nameMatch  = card.dataset.name.includes(searchQuery);
-    const descMatch  = card.dataset.desc.includes(searchQuery);
-    const styleMatch = activeFilter === 'all' || card.dataset.style === activeFilter;
-    return (nameMatch || descMatch) && styleMatch;
+  const all = Array.from(grid.querySelectorAll('.card'));
+
+  // Filter
+  _visibleCache = all.filter(card => {
+    const cardStyles = card.dataset.styles.split(' ');
+    const styleMatch = activeFilter === 'all' || cardStyles.includes(activeFilter);
+    if (!styleMatch) return false;
+    if (!searchQuery)  return true;
+    return card.dataset.name.includes(searchQuery) || card.dataset.desc.includes(searchQuery);
   });
 
-  const totalPages = Math.max(1, Math.ceil(visible.length / ITEMS_PER_PAGE));
+  const total      = _visibleCache.length;
+  const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
   if (currentPage > totalPages) currentPage = totalPages;
 
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
   const end   = start + ITEMS_PER_PAGE;
 
-  // Show only the current page slice
-  all.forEach(c => c.style.display = 'none');
-  visible.forEach((c, i) => { c.style.display = (i >= start && i < end) ? '' : 'none'; });
+  // Single pass: hide all, then show slice — batched for perf
+  requestAnimationFrame(() => {
+    all.forEach(c => (c.style.display = 'none'));
+    _visibleCache.forEach((c, i) => {
+      if (i >= start && i < end) c.style.display = '';
+    });
+  });
 
-  // Count label
+  // Count text
   if (countEl) {
     if (searchQuery || activeFilter !== 'all') {
-      countEl.textContent = `${visible.length} sticker${visible.length !== 1 ? 's' : ''} found`;
+      countEl.textContent = `${total} sticker${total !== 1 ? 's' : ''} found`;
     } else {
-      countEl.textContent = visible.length > ITEMS_PER_PAGE
-        ? `Showing ${start + 1}–${Math.min(end, visible.length)} of ${visible.length} stickers`
+      countEl.textContent = total > ITEMS_PER_PAGE
+        ? `Showing ${start + 1}–${Math.min(end, total)} of ${total}`
         : '';
     }
   }
 
-  // Empty state
-  if (emptyEl) emptyEl.style.display = visible.length === 0 ? '' : 'none';
+  if (emptyEl) emptyEl.style.display = total === 0 ? '' : 'none';
 
-  // Pagination controls
   renderPagination(totalPages);
 }
 
 /* ══════════════════════════════
-   PAGINATION UI
+   PAGINATION
    ══════════════════════════════ */
 function renderPagination(totalPages) {
   let el = document.getElementById('stickerPagination');
@@ -158,31 +178,31 @@ function renderPagination(totalPages) {
     el = document.createElement('div');
     el.id = 'stickerPagination';
     el.className = 'pagination';
-    const grid = document.getElementById('stickerGrid');
-    grid.parentNode.insertBefore(el, grid.nextSibling);
+    document.getElementById('stickerGrid').after(el);
   }
   el.style.display = '';
 
-  // Build page number buttons (show max 5 around current)
-  let pageButtons = '';
   const range = 2;
+  let pageButtons = '';
+  let prevEllipsis = false;
+
   for (let i = 1; i <= totalPages; i++) {
     if (i === 1 || i === totalPages || (i >= currentPage - range && i <= currentPage + range)) {
+      prevEllipsis = false;
       pageButtons += `<button class="pag-num${i === currentPage ? ' active' : ''}" onclick="changePage(${i})">${i}</button>`;
-    } else if (i === currentPage - range - 1 || i === currentPage + range + 1) {
+    } else if (!prevEllipsis) {
+      prevEllipsis = true;
       pageButtons += `<span class="pag-dots">…</span>`;
     }
   }
 
   el.innerHTML = `
     <button class="pag-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Prev
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Prev
     </button>
     <div class="pag-pages">${pageButtons}</div>
     <button class="pag-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-      Next
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      Next <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>`;
 }
 
@@ -195,7 +215,7 @@ function changePage(n) {
 window.changePage = changePage;
 
 /* ══════════════════════════════
-   RESET FILTERS
+   RESET
    ══════════════════════════════ */
 function resetFilters() {
   activeFilter = 'all';
@@ -213,17 +233,23 @@ function resetFilters() {
 window.resetFilters = resetFilters;
 
 /* ══════════════════════════════
-   SEARCH INPUT
+   SEARCH
    ══════════════════════════════ */
 function initSearch() {
   const input    = document.getElementById('searchInput');
   const clearBtn = document.getElementById('searchClear');
   if (!input) return;
+
+  let debounce;
   input.addEventListener('input', () => {
-    searchQuery = input.value.trim().toLowerCase();
-    clearBtn.style.display = searchQuery ? '' : 'none';
-    applyFilters();
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      searchQuery = input.value.trim().toLowerCase();
+      clearBtn.style.display = searchQuery ? '' : 'none';
+      applyFilters();
+    }, 120);
   });
+
   clearBtn.addEventListener('click', () => {
     input.value = '';
     searchQuery = '';
@@ -256,10 +282,8 @@ function buildTestimonialCard(t, i) {
   const filled   = Math.min(t.rating || 5, 5);
   const stars    = '★'.repeat(filled) + '☆'.repeat(5 - filled);
   const initials = (t.name || 'U').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-
   const mediaHTML = (t.media && t.mediaType === 'image')
-    ? `<div class="tcard-media"><img src="${t.media}" alt="${t.name}'s sticker" loading="lazy" onerror="this.parentElement.style.display='none'"/></div>` : '';
-
+    ? `<div class="tcard-media"><img src="${t.media}" alt="Review by ${t.name}" loading="lazy" onerror="this.parentElement.style.display='none'"/></div>` : '';
   const handleHTML = t.handle ? `<span class="tcard-handle">${t.handle}</span>` : '';
 
   return `
@@ -294,6 +318,113 @@ function renderTestimonials() {
 }
 
 /* ══════════════════════════════
+   CONTACT FORM — validation + AJAX submit
+   ══════════════════════════════ */
+function initContactForm() {
+  const form    = document.getElementById('contactForm');
+  if (!form) return;
+
+  const email1  = document.getElementById('cf-email');
+  const email2  = document.getElementById('cf-email2');
+  const msg     = document.getElementById('cf-msg');
+  const btnText = document.getElementById('cfBtnText');
+  const spinner = document.getElementById('cfBtnSpinner');
+  const submit  = document.getElementById('cfSubmit');
+  const success = document.getElementById('cfSuccess');
+
+  function setErr(id, txt) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  }
+  function clearErrs() {
+    ['err-email','err-email2','err-msg'].forEach(id => setErr(id, ''));
+    email1?.classList.remove('input-err');
+    email2?.classList.remove('input-err');
+    msg?.classList.remove('input-err');
+  }
+  function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  // Live confirm-email check
+  email2?.addEventListener('input', () => {
+    if (email2.value && email1.value && email2.value !== email1.value) {
+      setErr('err-email2', 'Emails do not match');
+      email2.classList.add('input-err');
+    } else {
+      setErr('err-email2', '');
+      email2.classList.remove('input-err');
+    }
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearErrs();
+    success.style.display = 'none';
+
+    let valid = true;
+
+    if (!email1.value || !isValidEmail(email1.value)) {
+      setErr('err-email', 'Please enter a valid email address');
+      email1.classList.add('input-err');
+      valid = false;
+    }
+    if (!email2.value || !isValidEmail(email2.value)) {
+      setErr('err-email2', 'Please confirm your email address');
+      email2.classList.add('input-err');
+      valid = false;
+    } else if (email1.value !== email2.value) {
+      setErr('err-email2', 'Emails do not match');
+      email2.classList.add('input-err');
+      valid = false;
+    }
+    if (!msg.value.trim() || msg.value.trim().length < 10) {
+      setErr('err-msg', 'Please write a message (at least 10 characters)');
+      msg.classList.add('input-err');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Submit via fetch (AJAX — no page reload)
+    submit.disabled = true;
+    btnText.style.display = 'none';
+    spinner.style.display = '';
+
+    try {
+      const data = new FormData(form);
+      // Remove confirm_email from actual submission payload
+      data.delete('confirm_email');
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        success.style.display = '';
+        form.reset();
+      } else {
+        // Fallback: native submit
+        form.submit();
+      }
+    } catch {
+      // Network issue — fall back to native submit
+      form.submit();
+    } finally {
+      submit.disabled = false;
+      btnText.style.display = '';
+      spinner.style.display = 'none';
+    }
+  });
+
+  // Check if came back from formsubmit redirect with ?sent=1
+  if (new URLSearchParams(window.location.search).has('sent')) {
+    success.style.display = '';
+    history.replaceState({}, '', window.location.pathname + window.location.hash);
+  }
+}
+
+/* ══════════════════════════════
    NAV AUTH
    ══════════════════════════════ */
 function initNavAuth() {
@@ -317,11 +448,10 @@ function initNavAuth() {
         const initials = username.slice(0, 2).toUpperCase();
         const photo    = user.photoURL;
 
-        if (navAvatar) {
-          navAvatar.innerHTML = photo
-            ? `<img src="${photo}" alt="${username}" referrerpolicy="no-referrer"/>`
-            : initials;
-        }
+        if (navAvatar) navAvatar.innerHTML = photo
+          ? `<img src="${photo}" alt="${username}" referrerpolicy="no-referrer"/>`
+          : initials;
+
         if (navUsername) navUsername.textContent = '@' + username;
         navUser.style.display   = 'flex';
         navSignIn.style.display = 'none';
@@ -334,10 +464,10 @@ function initNavAuth() {
                 <div class="mob-user-name">@${username}</div>
                 <div class="mob-user-sub">${user.email || ''}</div>
               </div>
-              <a href="auth.html?settings" class="mob-settings-link" title="Settings" onclick="closeMob()">
+              <a href="auth.html?settings" class="mob-settings-link" onclick="closeMob()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
               </a>
-              <button class="mob-logout-btn" id="mobLogoutBtn" title="Sign Out">
+              <button class="mob-logout-btn" id="mobLogoutBtn">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               </button>
             </div>`;
@@ -421,6 +551,7 @@ function boot() {
   initFilters();
   initNav();
   initNavAuth();
+  initContactForm();
 }
 
 if (document.readyState === 'loading') {
