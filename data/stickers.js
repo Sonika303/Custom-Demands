@@ -20,6 +20,7 @@ const STICKERS = [
   { id: 32, name: "Wado Ichimonji, Sandai Kitetsu, and Enma 1",       desc: "Wado Ichimonji, Sandai Kitetsu, and Enma standing together",          image: "images/anime/swords/Wado Ichimonji, Sandai Kitetsu, and Enma 1.png",            style: "anime",       price: 10, inStock: true  },
   { id: 33, name: "luffy 2",     desc: "Kid Luffy peeking out with a straw hat",          image: "images/anime/luffy/luffy2.png",     style: "anime",       price: 10, inStock: true  }, 
   { id: 34, name: "Goku 2",     desc: "Chibi Goku with shadow and super saiyan aura",          image: "images/anime/goku/goku2.png",     style: "anime",       price: 10, inStock: true  },
+  { id: 35, name: "Jiraiya 1",     desc: "This is a die-cut sticker featuring a white-haired anime character with a forehead protector, framed by a spiral seal emblem",          image: "images/anime/jiraiya1.png",     style: "anime",       price: 10, inStock: true  },
 
   /* ── HELLO KITTY ── */
   { id: 2,  name: "Hello Kitty 1", desc: "Hello Kitty standing",                                     image: "images/HelloKitty/HelloKitty1.png", style: "hellokitty",  price: 10, inStock: true  },
