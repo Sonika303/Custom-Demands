@@ -32,17 +32,14 @@ const ITEMS_PER_PAGE = 10;
 let activeFilter  = 'all';
 let searchQuery   = '';
 let currentPage   = 1;
-// Cache: array of visible card elements after last filter run
 let _visibleCache = [];
 
-/* ── Normalize style to always be an array ── */
 function getStyles(item) {
   return Array.isArray(item.style) ? item.style : [item.style || 'sticker'];
 }
 
 /* ══════════════════════════════
-   BUILD STICKER CARD HTML
-   (runs once at page load — not on every filter)
+   BUILD STICKER CARD
    ══════════════════════════════ */
 function buildCard(item, index) {
   const styles   = getStyles(item);
@@ -50,7 +47,7 @@ function buildCard(item, index) {
   const cfg      = STYLE_CFG[primary] || STYLE_CFG.sticker;
   const delay    = ((index % 5) * 0.05).toFixed(2) + 's';
   const num      = String(item.id).padStart(2, '0');
-  const stylesStr = styles.join(' '); // for data attribute
+  const stylesStr = styles.join(' ');
 
   const priceHTML = item.price != null
     ? `<div class="card-price">₹${item.price}</div>` : '';
@@ -64,7 +61,6 @@ function buildCard(item, index) {
          onerror="this.outerHTML='<div class=\\'card-ph\\'><span class=\\'card-num\\'>${num}</span><p>Missing</p></div>'">`
     : `<div class="card-ph"><span class="card-num">${num}</span><p>Add Image</p></div>`;
 
-  // Show ALL style badges for multi-category stickers
   const badgesHTML = styles.map(s => {
     const c = STYLE_CFG[s] || STYLE_CFG.sticker;
     return `<span class="card-cat" style="color:${c.color};background:${c.bg};border:1px solid ${c.color}28">${c.label}</span>`;
@@ -86,10 +82,8 @@ function buildCard(item, index) {
         <h3 class="card-name" itemprop="name">${item.name}</h3>
         <p  class="card-desc" itemprop="description">${item.desc}</p>
         <div class="card-btns">
-          <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener"
-             class="cbtn-order" style="background:${cfg.color};border-color:${cfg.color}">Order Now</a>
-          <a href="https://forms.gle/drrjRG7ptcdLWmaa8" target="_blank" rel="noopener"
-             class="cbtn-sec">Customise</a>
+          <a href="#contact" class="cbtn-order" style="background:${cfg.color};border-color:${cfg.color}">Order Now</a>
+          <a href="#contact" class="cbtn-sec">Customise</a>
         </div>
       </div>
     </article>`;
@@ -105,13 +99,11 @@ function renderStickers() {
     grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888;padding:40px">No stickers — check data/stickers.js is loaded.</p>';
     return;
   }
-  // Build all cards as a single HTML string — one DOM write
   grid.innerHTML = STICKERS.map((item, i) => buildCard(item, i)).join('');
 }
 
 /* ══════════════════════════════
    FILTER + SEARCH + PAGINATION
-   Using display toggle (no DOM rebuild = fast)
    ══════════════════════════════ */
 function applyFilters(resetPageFlag = true) {
   const grid    = document.getElementById('stickerGrid');
@@ -123,7 +115,6 @@ function applyFilters(resetPageFlag = true) {
 
   const all = Array.from(grid.querySelectorAll('.card'));
 
-  // Filter
   _visibleCache = all.filter(card => {
     const cardStyles = card.dataset.styles.split(' ');
     const styleMatch = activeFilter === 'all' || cardStyles.includes(activeFilter);
@@ -139,7 +130,6 @@ function applyFilters(resetPageFlag = true) {
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
   const end   = start + ITEMS_PER_PAGE;
 
-  // Single pass: hide all, then show slice — batched for perf
   requestAnimationFrame(() => {
     all.forEach(c => (c.style.display = 'none'));
     _visibleCache.forEach((c, i) => {
@@ -147,7 +137,6 @@ function applyFilters(resetPageFlag = true) {
     });
   });
 
-  // Count text
   if (countEl) {
     if (searchQuery || activeFilter !== 'all') {
       countEl.textContent = `${total} sticker${total !== 1 ? 's' : ''} found`;
@@ -159,7 +148,6 @@ function applyFilters(resetPageFlag = true) {
   }
 
   if (emptyEl) emptyEl.style.display = total === 0 ? '' : 'none';
-
   renderPagination(totalPages);
 }
 
@@ -318,7 +306,7 @@ function renderTestimonials() {
 }
 
 /* ══════════════════════════════
-   CONTACT FORM — validation + AJAX submit
+   CONTACT FORM
    ══════════════════════════════ */
 function initContactForm() {
   const form    = document.getElementById('contactForm');
@@ -338,9 +326,7 @@ function initContactForm() {
   }
   function clearErrs() {
     ['err-email','err-email2','err-msg'].forEach(id => setErr(id, ''));
-    email1?.classList.remove('input-err');
-    email2?.classList.remove('input-err');
-    msg?.classList.remove('input-err');
+    [email1, email2, msg].forEach(el => el?.classList.remove('input-err'));
   }
   function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
@@ -384,15 +370,14 @@ function initContactForm() {
 
     if (!valid) return;
 
-    // Submit via fetch (AJAX — no page reload)
     submit.disabled = true;
     btnText.style.display = 'none';
     spinner.style.display = '';
 
     try {
       const data = new FormData(form);
-      // Remove confirm_email from actual submission payload
-      data.delete('confirm_email');
+      // Strip the confirm email field — we only want to send the primary email
+      data.delete('_confirmEmail');
 
       const res = await fetch(form.action, {
         method: 'POST',
@@ -400,15 +385,15 @@ function initContactForm() {
         headers: { 'Accept': 'application/json' }
       });
 
-      if (res.ok) {
+      if (res.ok || res.status === 200) {
         success.style.display = '';
         form.reset();
       } else {
-        // Fallback: native submit
+        // Fallback: native submit → redirects to GitHub Pages URL
         form.submit();
       }
     } catch {
-      // Network issue — fall back to native submit
+      // Network error fallback
       form.submit();
     } finally {
       submit.disabled = false;
@@ -416,12 +401,6 @@ function initContactForm() {
       spinner.style.display = 'none';
     }
   });
-
-  // Check if came back from formsubmit redirect with ?sent=1
-  if (new URLSearchParams(window.location.search).has('sent')) {
-    success.style.display = '';
-    history.replaceState({}, '', window.location.pathname + window.location.hash);
-  }
 }
 
 /* ══════════════════════════════
@@ -451,7 +430,6 @@ function initNavAuth() {
         if (navAvatar) navAvatar.innerHTML = photo
           ? `<img src="${photo}" alt="${username}" referrerpolicy="no-referrer"/>`
           : initials;
-
         if (navUsername) navUsername.textContent = '@' + username;
         navUser.style.display   = 'flex';
         navSignIn.style.display = 'none';
