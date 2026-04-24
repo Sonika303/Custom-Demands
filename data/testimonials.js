@@ -5,7 +5,7 @@ const TESTIMONIALS = [
     name:      "Chetan",
     handle:    "",
     rating:    5,
-    text:      "Absolutely obsessed with my Pain sticker!! The quality is amazing and they understood exactly what I wanted. Will definitely order again!",
+    text:      "Absolutely obsessed with my Youtube Channel sticker!! The quality is amazing and they understood exactly what I wanted. Will definitely order again!",
     media:     "testimonials/pain1.png",
     mediaType: "image",
     style:     "anime",
